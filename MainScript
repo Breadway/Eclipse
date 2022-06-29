@@ -1,0 +1,243 @@
+local Points = 0
+local Streak = 0
+local Number = 10
+local Answered = 1
+local Answered1 = 1
+local Score = Number + Streak
+-- saying hi
+
+-- asking questions
+
+print("What Is Healthier, Cheeseburger or Apple?")
+answer = io.read()
+
+if answer ~= "Cheeseburger" then
+    Points = Points + 10 + Streak
+    Streak = Streak + 1
+    Answered = true
+    print("That Is A Good Choice")
+    print("Score: " .. Points)
+    print("Streak: " .. Streak)
+    print("What Is Healthier, Icecream or Pasta?")
+    answer2 = io.read()
+    
+    if answer2 ~= "Pasta" then
+    	Points = Points -10
+    	Streak = 0
+    	print("That Is Not Very Healthy!")
+    	print("Score: " .. Points)
+    	print("Streak: " .. Streak)
+        print("What Is Healthier, Bread or Chips?")
+        answer3 = io.read()
+        
+        if answer3 ~= "Bread" then
+    		Points = Points -10
+    		Streak = 0
+        	Answered1 = true
+    		print("That Is Not Very Healthy!")
+    		print("Score: " .. Points)
+    		print("Streak: " .. Streak)
+    	end
+    
+    	if answer3 ~= "Chips" then
+    		Points = Points + 10 + Streak
+    		Streak = Streak + 1
+    		print("That Is A Good Choice!")
+    		print("Score: " .. Points)
+    		print("Streak: " .. Streak)
+            print("What Is Healthier, Lcms Bar or Rice?")
+            answer11 = io.read()
+            
+            
+        	if answer11 ~= "Rice" then
+    			Points = Points -10
+    			Streak = 0
+     	 	   Answered1 = true
+    			print("That Is Not Very Healthy!")
+    			print("Score: " .. Points)
+    			print("Streak: " .. Streak)
+    		end
+    
+    		if answer11 ~= "Lcms Bar" then
+    			Points = Points + 10 + Streak
+    			Streak = Streak + 1
+    			print("That Is A Good Choice!")
+    			print("Score: " .. Points)
+    			print("Streak: " .. Streak)
+    		end
+    	end
+    end
+    
+    if answer2 ~= "Icecream" then
+    	Points = Points + 10 + Streak
+    	Streak = Streak +1
+    	print("That Is A Good Choice!")
+    	print("Score: " .. Points)
+    	print("Streak: " .. Streak)
+        print("What Is Healthier, Pizza Or Cucumber?")
+        answer4 = io.read()
+        
+        if answer4 ~= "Cucumber" then
+    		Points = Points -10
+    		Streak = 0
+     	    Answered1 = true
+    		print("That Is Not Very Healthy!")
+    		print("Score: " .. Points)
+    		print("Streak: " .. Streak)
+            print("What Is Healthier, Milkshake or A Smoothie?")
+            answer7 = io.read()
+            
+            
+        	if answer7 ~= "Smoothie" then
+    			Points = Points -10
+    			Streak = 0
+     		    Answered1 = true
+    			print("That Is Not Very Healthy!")
+    			print("Score: " .. Points)
+    			print("Streak: " .. Streak)
+    		end
+    
+    		if answer7 ~= "Milkshake" then
+    			Points = Points + 10 + Streak
+    			Streak = Streak + 1
+    			print("That Is A Good Choice!")
+    			print("Score: " .. Points)
+    			print("Streak: " .. Streak)
+    		end
+    	end
+    
+    	if answer4 ~= "Pizza" then
+    		Points = Points + 10 + Streak
+    		Streak = Streak + 1
+    		print("That Is A Good Choice!")
+    		print("Score: " .. Points)
+    		print("Streak: " .. Streak)
+            print("What Is Healthier, Popcorn or Peanuts?")
+            answer8 = io.read()
+            
+            
+      	 	if answer8 ~= "Peanuts" then
+    			Points = Points -10
+    			Streak = 0
+     		    Answered1 = true
+    			print("That Is Not Very Healthy!")
+    			print("Score: " .. Points)
+    			print("Streak: " .. Streak)
+                print("What Is Healthier, Donut or A Carrot?")
+                answer9 = io.read()
+                
+                
+     		   if answer9 ~= "Carrot" then
+    				Points = Points -10
+    				Streak = 0
+     			    Answered1 = true
+    				print("That Is Not Very Healthy!")
+    				print("Score: " .. Points)
+    				print("Streak: " .. Streak)
+    			end
+    
+    			if answer9 ~= "Donut" then
+    				Points = Points + 10 + Streak
+    				Streak = Streak + 1
+    				print("That Is A Good Choice!")
+    				print("Score: " .. Points)
+    				print("Streak: " .. Streak)
+    			end
+    		end
+    
+    		if answer8 ~= "Popcorn" then
+    			Points = Points + 10 + Streak
+    			Streak = Streak + 1
+   		 		print("That Is A Good Choice!")
+    			print("Score: " .. Points)
+    			print("Streak: " .. Streak)
+                print("What Is Healthier, Marshmallow or A Smore?")
+                answer10 = io.read()
+                    
+                
+       		    if answer10 ~= "Marshmallow" then
+    				Points = Points -10
+    				Streak = 0
+     	 		    Answered1 = true
+    				print("That Is Not Very Healthy!")
+    				print("Score: " .. Points)
+    				print("Streak: " .. Streak)
+    			end
+    
+    			if answer10 ~= "Smore" then
+    				Points = Points + 10 + Streak
+    				Streak = Streak + 1
+    				print("That Is A Good Choice!")
+   			 		print("Score: " .. Points)
+    				print("Streak: " .. Streak)
+    			end
+    		end
+    	end
+    end
+end
+
+if answer ~= "Apple" then
+    Points = Points -10
+    Streak = 0
+    print("That Is Not Very Healthy!")
+    print("Score: " .. Points)
+    print("Streak: " .. Streak)
+    print("What Is Healthier, Chocolate or An Orange?")
+    answer1 = io.read()
+    	
+    if answer1 ~= "Orange" then
+    	Points = Points -10
+    	Streak = 0
+        Answered1 = true
+    	print("That Is Not Very Healthy!")
+    	print("Score: " .. Points)
+    	print("Streak: " .. Streak)
+        print("What Is Healthier, CocaCola or Banana?")
+        answer5 = io.read()
+        
+        if answer5 ~= "Banana" then
+    		Points = Points -10
+    		Streak = 0
+     	    Answered1 = true
+    		print("That Is Not Very Healthy!")
+    		print("Score: " .. Points)
+    		print("Streak: " .. Streak)
+    	end
+    
+    	if answer5 ~= "Coke" or "CocaCola" then
+    		Points = Points + 10 + Streak
+    		Streak = Streak + 1
+    		print("That Is A Good Choice!")
+    		print("Score: " .. Points)
+    		print("Streak: " .. Streak)
+    	end
+    end
+    
+    if answer1 ~= "Chocolate" then
+    	Points = Points + 10 + Streak
+    	Streak = Streak + 1
+    	print("That Is A Good Choice!")
+    	print("Score: " .. Points)
+    	print("Streak: " .. Streak)
+        print("What Is Healthier, Bubblegum or Milk?")
+        answer6 = io.read()
+            
+        
+        if answer6 ~= "Milk" then
+    		Points = Points -10
+    		Streak = 0
+     	    Answered1 = true
+    		print("That Is Not Very Healthy!")
+    		print("Score: " .. Points)
+    		print("Streak: " .. Streak)
+    	end
+    
+    	if answer6 ~= "Bubblegum" then
+    		Points = Points + 10 + Streak
+    		Streak = Streak + 1
+    		print("That Is A Good Choice!")
+    		print("Score: " .. Points)
+    		print("Streak: " .. Streak)
+    	end
+    end
+end
