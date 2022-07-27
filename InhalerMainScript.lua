@@ -1,6 +1,8 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("Inhaler X", "GrapeTheme")
 local KillToggled = false
+local SpeedToggled = false
+local speed = 16
 
 -- Tab & Section Creation --
 
@@ -57,8 +59,21 @@ end)
 
 -- Player Tab --
 
+Player:NewToggle("Speed", "ToggleInfo", function(state)
+    if state then
+        SpeedToggled = True
+    else
+        SpeedToggled = false
+    end
+end)
+
 Player:NewSlider("Speed", "Changes Player Speed, 23 Is Reccomended", 50, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+	if SpeedToggled then
+		speed = s
+	else
+		speed = 16
+	end
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
 end)
 
 
@@ -75,8 +90,12 @@ KeybindsTG:NewKeybind("Toggle Gui", "Toggles The Inhaler X Gui", Enum.KeyCode.Ri
 end)
 
 KeybindsC:NewKeybind("Toggle KillAura", "Toggles The Inhaler X Gui", Enum.KeyCode.RightShift, function()
-	
-end)
+	if KillToggled then
+		KillAura:UpdateToggle("Toggle Off")
+	elseif not KillToggled
+		KillAura:UpdateToggle("Toggle On")
+	end
+end) 
 
 -- Credits Tab --
 
