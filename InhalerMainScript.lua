@@ -199,6 +199,6 @@ end)
 
 -- Credits Tab --
 
-Credits:NewLabel("Owner - Breadway (@plasticbread849)")
+Credits:NewLabel("Owner - Breadway (@Breadway#2678)")
 Credits:NewLabel("Co-Owner - Emi H (@emirtube11)")
 Credits:NewLabel("Gui Library - xHeptc")
