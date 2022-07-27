@@ -62,8 +62,11 @@ end)
 Player:NewToggle("Speed", "ToggleInfo", function(state)
     if state then
         SpeedToggled = True
+	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
     else
         SpeedToggled = false
+	speed = 16
+	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
     end
 end)
 
@@ -73,7 +76,7 @@ Player:NewSlider("Speed", "Changes Player Speed, 23 Is Reccomended", 50, 0, func
 	else
 		speed = 16
 	end
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
+	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
 end)
 
 
