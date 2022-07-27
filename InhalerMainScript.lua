@@ -66,8 +66,12 @@ end)
 
 -- Keybinds Tab --
 
-Keybinds:NewKeybind("Toggle Gui", "Toggles The Inhaler X Gui", Enum.KeyCode.RightShift, function()
+KeybindsTG:NewKeybind("Toggle Gui", "Toggles The Inhaler X Gui", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI()
+end)
+
+KeybindsC:NewKeybind("Kill Aura", "Automatically Attacks Players", Enum.Keycode.F, function()
+	
 end)
 
 -- Credits Tab --
