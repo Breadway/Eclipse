@@ -3,8 +3,8 @@ local Window = Library.CreateLib("Inhaler V10000", "GrapeTheme")
 
 
 
-local Main = Window:NewTab("Main")
-local Combat = Main:NewSection("Combat")
+local Main = Window:NewTab("Combat")
+local Combat = Combat:NewSection("Combat")
 
 Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
     if state then
@@ -25,7 +25,7 @@ Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
     end
 end)
 
-Combat:NewSlider("SliderText", "SliderInfo", 50, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+Combat:NewSlider("Speed", "Changes Player Speed, 23 Is Reccomended", 50, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
 end)
 
