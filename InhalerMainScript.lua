@@ -1,6 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("Inhaler V10000", "GrapeTheme")
-local speed = false
 
 
 
@@ -9,38 +8,25 @@ local Combat = Main:NewSection("Combat")
 
 Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
     if state then
-        for i,v in pairs(game.Players:GetPlayers()) do
-            if v.Team ~= game.Players.LocalPlayer.Team and v.Character and game.Players.LocalPlayer.Character.HandInvItem.Value ~= nil and game.Players.LocalPlayer:DistanceFromCharacter(v.Character.HumanoidRootPart.Position) < 60 then
-                game.ReplicatedStorage:WaitForChild("rbxts_include")["node_modules"]["net"]["out"]["_NetManaged"].SwordHit:InvokeServer({
-                    entityInstance = v.Character,
-                    weapon = game.Players.LocalPlayer.Character.HandInvItem.Value
-                })
-            end
-        end
-    else
+	repeat
+		wait(0.1)
+        	for i,v in pairs(game.Players:GetPlayers()) do
+			local vchr = v.Character
+			if vchr and v~=Player and v.Team~=Player.Team and Character and Character.Humanoid.Health>0 then
+				local vhum = vchr:FindFirstChild("Humanoid")
+				local vroot = vchr:FindFirstChild("HumanoidRootPart")
+				if vhum and vroot and vhum.Health>0 and (vroot.Position-Character.HumanoidRootPart.Position).magnitude<=Range then
+					RemoteFolder.SwordHit:InvokeServer({entityInstance=vchr,weapon=Character.HandInvItem.Value})
+				end
+			end
+		end
+	until not state
 
     end
 end)
 
-Combat:NewToggle("Speed", "ToggleInfo", function(state)
-    if state then
-        print(speed)
-        speed = state
-    else
-        speed = state
-        print(speed)
-    end
-end)
-
-Combat:NewSlider("SliderText", "SliderInfo", 500, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
-    if speed == true then
+Combat:NewSlider("SliderText", "SliderInfo", 50, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
-    else
-        while speed == false do
-          game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-          wait(0.5)
-        end
-    end
 end)
 
 local Other = Window:NewTab("Other")
