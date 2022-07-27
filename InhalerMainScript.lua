@@ -3,14 +3,7 @@ local Window = Library.CreateLib("Inhaler X", "GrapeTheme")
 
 -- Variables --
 
-local KillToggled = false
-local SpeedToggled = false
-local GravityToggled = false
-local Autoclicker = false
-local Velocity = false
-local NoFall = false
-local Gravity = 196.2
-local speed = 16
+local Var = loadstring(game:HttpGet("https://github.com/Breadway/Inhaler-X/blob/main/Config.lua"))()
 
 -- Tab & Section Creation --
 
@@ -44,7 +37,7 @@ local Credits = OtherTab:NewSection("Credits")
 
 local KillAura = Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
     if state then
-	KillToggled = true
+	Var.KillToggled = true
 	repeat
 					
 		wait(0.3)
@@ -60,7 +53,7 @@ local KillAura = Combat:NewToggle("KillAura", "Automatically Attack Players", fu
 		end
 	until not state	
     else
-	KillToggled = false
+	Var.KillToggled = false
     end
 end)
 
@@ -92,24 +85,24 @@ end)
 
 local SpeedToggle = Player:NewToggle("Speed", "ToggleInfo", function(state)
     if state then
-        SpeedToggled = True
+        Var.SpeedToggled = True
 	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
     else
-        SpeedToggled = false
-	speed = 16
-	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
+        Var.SpeedToggled = false
+	Var.speed = 16
+	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Var.speed
     end
 end)
 
 Player:NewSlider("Speed", "Changes Player Speed, 23 Is Reccomended", 50, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
-	if SpeedToggled then
-		speed = s
+	if Var.SpeedToggled then
+		Var.speed = s
 		return	SpeedToggle
 	else
-		speed = 16
+		Var.speed = 16
 		return SpeedToggle
 	end
-	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
+	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Var.speed
 end)
 
 
@@ -149,25 +142,25 @@ end)
 
 local GravityToggle = Blatant:NewToggle("Gravity", "Changes Workspace Gravity", function(state)
     if state then
-        GravityToggled = True
-	game.workspace.Gravity = Gravity
+        Var.GravityToggled = True
+	game.workspace.Gravity = Var.Gravity
     else
-        GravityToggled = false
-	Gravity = 196.2
+        Var.GravityToggled = false
+	Var.Gravity = 196.2
 	game.workspace.Gravity = Gravity
     end
     game.workspace.Gravity = Gravity
 end)
 
 Blatant:NewSlider("Gravity", " ", 500, -500, function(s) -- 500 (MaxValue) | 0 (MinValue)
-    if GravityToggled then
-		Gravity = s
+    if Var.GravityToggled then
+		Var.Gravity = s
 		return	GravityToggle
 	else
-		Gravity = 196.2
+		Var.Gravity = 196.2
 		return GravityToggle
 	end
-	game.workspace.Gravity = Gravity
+	game.workspace.Gravity = Var.Gravity
 end)
 
 -- World Tab --
@@ -181,19 +174,19 @@ KeybindsTG:NewKeybind("Toggle Gui", "Toggles The Inhaler X Gui", Enum.KeyCode.Ri
 end)
 
 KeybindsC:NewKeybind("Toggle KillAura", "Automatically Attack Players", Enum.KeyCode.R, function()
-	if KillToggled then
+	if Var.KillToggled then
 		KillAura:UpdateToggle("Toggle Off")
-	elseif not KillToggled
+	elseif not Var.KillToggled
 		KillAura:UpdateToggle("Toggle On")
 	end
 end) 
 
 KeybindsP:NewKeybind("Toggle Speed", "Changes Player Speed, 23 Is Reccomended", Enum.KeyCode.V, function()
-	if SpeedToggled then
+	if Var.SpeedToggled then
 		SpeedToggle:UpdateToggle("Toggle Off")
-	elseif not SpeedToggled then
+	elseif not Var.SpeedToggled then
 		SpeedToggle:UpdateToggle("Toggle On")
-		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Var.speed
 	end
 end)
 
