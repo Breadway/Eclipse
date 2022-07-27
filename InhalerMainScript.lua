@@ -1,7 +1,15 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("Inhaler X", "GrapeTheme")
+
+-- Variables --
+
 local KillToggled = false
 local SpeedToggled = false
+local GravityToggled = false
+local Autoclicker = false
+local Velocity = false
+local NoFall = false
+local Gravity = 196.2
 local speed = 16
 
 -- Tab & Section Creation --
@@ -29,7 +37,6 @@ local KeybindsB = RenderTab:NewSection("Blatant")
 local KeybindsW = RenderTab:NewSection("World")
 local KeybindsR = RenderTab:NewSection("Render")
 
-
 local CreditsTab = Window:NewTab("Credits")
 local Credits = OtherTab:NewSection("Credits")
 
@@ -54,6 +61,30 @@ local KillAura = Combat:NewToggle("KillAura", "Automatically Attack Players", fu
 	until not state	
     else
 	KillToggled = false
+    end
+end)
+
+Combat:NewToggle("Velocity", "No KnockBack", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+Combat:NewToggle("Autoclicker", "Clicks when mouse button is held down", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+Combat:NewToggle("Aim Assist", "Better Aim Because Ur Bad", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
     end
 end)
 
@@ -83,6 +114,61 @@ end)
 
 
 -- Blatant Tab --
+
+Blatant:NewToggle("NoFall", "Take No Fall Damage", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+Blatant:NewToggle("HighJump", "Jump High", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+Blatant:NewToggle("LongJump", "Fly", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+Blatant:NewToggle("NoSlowdown", "Dont Slowdown When using Bows, Apples etc", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+local GravityToggle = Blatant:NewToggle("Gravity", "Changes Workspace Gravity", function(state)
+    if state then
+        GravityToggled = True
+	game.workspace.Gravity = Gravity
+    else
+        GravityToggled = false
+	Gravity = 196.2
+	game.workspace.Gravity = Gravity
+    end
+    game.workspace.Gravity = Gravity
+end)
+
+Blatant:NewSlider("Gravity", " ", 500, -500, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    if GravityToggled then
+		Gravity = s
+		return	GravityToggle
+	else
+		Gravity = 196.2
+		return GravityToggle
+	end
+	game.workspace.Gravity = Gravity
+end)
 
 -- World Tab --
 
