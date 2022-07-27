@@ -59,7 +59,7 @@ end)
 
 -- Player Tab --
 
-Player:NewToggle("Speed", "ToggleInfo", function(state)
+local SpeedToggle = Player:NewToggle("Speed", "ToggleInfo", function(state)
     if state then
         SpeedToggled = True
 	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
@@ -73,8 +73,10 @@ end)
 Player:NewSlider("Speed", "Changes Player Speed, 23 Is Reccomended", 50, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
 	if SpeedToggled then
 		speed = s
+		return	SpeedToggle
 	else
 		speed = 16
+		return SpeedToggle
 	end
 	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
 end)
@@ -92,13 +94,21 @@ KeybindsTG:NewKeybind("Toggle Gui", "Toggles The Inhaler X Gui", Enum.KeyCode.Ri
 	Library:ToggleUI()
 end)
 
-KeybindsC:NewKeybind("Toggle KillAura", "Toggles The Inhaler X Gui", Enum.KeyCode.RightShift, function()
+KeybindsC:NewKeybind("Toggle KillAura", "Automatically Attack Players", Enum.KeyCode.RightShift, function()
 	if KillToggled then
 		KillAura:UpdateToggle("Toggle Off")
 	elseif not KillToggled
 		KillAura:UpdateToggle("Toggle On")
 	end
 end) 
+
+KeybindsP:NewKeybind("Toggle Speed", "Changes Player Speed, 23 Is Reccomended", Enum.KeyCode.RightShift, function()
+	if SpeedToggled then
+		SpeedToggle:UpdateToggle("Toggle Off")
+	elseif not SpeedToggled then
+		SpeedToggle:UpdateToggle("Toggle On")
+	end
+end)
 
 -- Credits Tab --
 
