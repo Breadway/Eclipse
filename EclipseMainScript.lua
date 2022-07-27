@@ -2,8 +2,16 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHept
 local Window = Library.CreateLib("Inhaler X", "GrapeTheme")
 
 -- Variables --
-
-local Var = loadstring(game:HttpGet("https://github.com/Breadway/Inhaler-X/blob/main/Config.lua"))()
+local Var = {
+local KillToggled = false
+local SpeedToggled = false
+local GravityToggled = false
+local Autoclicker = false
+local Velocity = false
+local NoFall = false
+local Gravity = 196.2
+local speed = 16
+}
 
 -- Tab & Section Creation --
 
