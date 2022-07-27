@@ -73,27 +73,7 @@ end)
 local PlayerTab = Window:NewTab("Player")
 local Player = PlayerTab:NewSection("Player")
 
-local SpeedToggle = Player:NewToggle("Speed", "ToggleInfo", function(state)
-    if state then
-       SpeedToggled = True
-	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
-    else
-       SpeedToggled = false
-	speed = 16
-	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
-    end
-end)
 
-Player:NewSlider("Speed", "Changes Player Speed, 23 Is Reccomended", 50, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
-	if SpeedToggled then
-		speed = s
-		return	SpeedToggle
-	else
-		speed = 16
-		return SpeedToggle
-	end
-	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
-end)
 
 
 -- Blatant Tab --
