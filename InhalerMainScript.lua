@@ -94,7 +94,7 @@ KeybindsTG:NewKeybind("Toggle Gui", "Toggles The Inhaler X Gui", Enum.KeyCode.Ri
 	Library:ToggleUI()
 end)
 
-KeybindsC:NewKeybind("Toggle KillAura", "Automatically Attack Players", Enum.KeyCode.RightShift, function()
+KeybindsC:NewKeybind("Toggle KillAura", "Automatically Attack Players", Enum.KeyCode.R, function()
 	if KillToggled then
 		KillAura:UpdateToggle("Toggle Off")
 	elseif not KillToggled
@@ -102,7 +102,7 @@ KeybindsC:NewKeybind("Toggle KillAura", "Automatically Attack Players", Enum.Key
 	end
 end) 
 
-KeybindsP:NewKeybind("Toggle Speed", "Changes Player Speed, 23 Is Reccomended", Enum.KeyCode.RightShift, function()
+KeybindsP:NewKeybind("Toggle Speed", "Changes Player Speed, 23 Is Reccomended", Enum.KeyCode.V, function()
 	if SpeedToggled then
 		SpeedToggle:UpdateToggle("Toggle Off")
 	elseif not SpeedToggled then
