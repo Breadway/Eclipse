@@ -1,5 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("Inhaler X", "GrapeTheme")
+local Killura = false
 
 -- Tab & Section Creation --
 
@@ -35,18 +36,18 @@ local Credits = OtherTab:NewSection("Credits")
 Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
     if state then
 	repeat
+					
 		wait(0.3)
-        	for i,v in pairs(game.Players:GetPlayers()) do
+       	 	for i,v in pairs(game.Players:GetPlayers()) do
 			local vchr = v.Character
 			if vchr and v~=Player and v.Team~=Player.Team and Character and Character.Humanoid.Health>0 then
-				local vhum = vchr:FindFirstChild("Humanoid")
-				local vroot = vchr:FindFirstChild("HumanoidRootPart")
+				local vhum = vchr:FindFirstChild("Humanoid")					local vroot = vchr:FindFirstChild("HumanoidRootPart")
 				if vhum and vroot and vhum.Health>0 and (vroot.Position-Character.HumanoidRootPart.Position).magnitude<=Range then
-					RemoteFolder.SwordHit:InvokeServer({entityInstance=vchr,weapon=Character.HandInvItem.Value})
+				RemoteFolder.SwordHit:InvokeServer({entityInstance=vchr,weapon=Character.HandInvItem.Value})
 				end
 			end
 		end
-	until not state
+	until not state	
 
     end
 end)
@@ -68,10 +69,6 @@ end)
 
 KeybindsTG:NewKeybind("Toggle Gui", "Toggles The Inhaler X Gui", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI()
-end)
-
-KeybindsC:NewKeybind("Kill Aura", "Automatically Attacks Players", Enum.Keycode.F, function()
-	
 end)
 
 -- Credits Tab --
