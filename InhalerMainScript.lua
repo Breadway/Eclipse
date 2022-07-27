@@ -107,6 +107,7 @@ KeybindsP:NewKeybind("Toggle Speed", "Changes Player Speed, 23 Is Reccomended", 
 		SpeedToggle:UpdateToggle("Toggle Off")
 	elseif not SpeedToggled then
 		SpeedToggle:UpdateToggle("Toggle On")
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
 	end
 end)
 
