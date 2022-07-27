@@ -1,10 +1,36 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("Inhaler V10000", "GrapeTheme")
+local Window = Library.CreateLib("Inhaler X", "GrapeTheme")
+
+-- Tab & Section Creation --
+
+local CombatTab = Window:NewTab("Combat")
+local Combat =CombatTab:NewSection("Combat")
+
+local PlayerTab = Window:NewTab("Player")
+local Player = PlayerTab:NewSection("Player")
+
+local BlatantTab = Window:NewTab("Blatant")
+local Blatant = BlatantTab:NewSection("Blatant")
+
+local WorldTab = Window:NewTab("World")
+local World = WorldTab:NewSection("World")
+
+local RenderTab = Window:NewTab("Render")
+local Render = RenderTab:NewSection("Render")
+
+local KeybindsTab = Window:NewTab("Keybinds")
+local KeybindsTG = RenderTab:NewSection("ToggleGui")
+local KeybindsC = RenderTab:NewSection("Combat")
+local KeybindsP = RenderTab:NewSection("Player")
+local KeybindsB = RenderTab:NewSection("Blatant")
+local KeybindsW = RenderTab:NewSection("World")
+local KeybindsR = RenderTab:NewSection("Render")
 
 
+local CreditsTab = Window:NewTab("Credits")
+local Credits = OtherTab:NewSection("Credits")
 
-local Main = Window:NewTab("Combat")
-local Combat = Combat:NewSection("Combat")
+-- Combat Tab --
 
 Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
     if state then
@@ -25,13 +51,25 @@ Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
     end
 end)
 
-Combat:NewSlider("Speed", "Changes Player Speed, 23 Is Reccomended", 50, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+-- Player Tab --
+
+Player:NewSlider("Speed", "Changes Player Speed, 23 Is Reccomended", 50, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
 end)
 
-local Other = Window:NewTab("Other")
-local Other1 = Other:NewSection("Other")
 
-Other1:NewKeybind("KeybindText", "KeybindInfo", Enum.KeyCode.RightShift, function()
+-- Blatant Tab --
+
+-- World Tab --
+
+-- Render Tab --
+
+-- Keybinds Tab --
+
+Keybinds:NewKeybind("Toggle Gui", "Toggles The Inhaler X Gui", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI()
 end)
+
+-- Credits Tab --
+
+
