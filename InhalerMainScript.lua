@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("Inhaler X", "GrapeTheme")
-local Killura = false
+local KillToggled = false
 
 -- Tab & Section Creation --
 
@@ -33,8 +33,9 @@ local Credits = OtherTab:NewSection("Credits")
 
 -- Combat Tab --
 
-Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
+local KillAura = Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
     if state then
+	KillToggled = true
 	repeat
 					
 		wait(0.3)
@@ -49,7 +50,8 @@ Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
 				end
 		end
 	until not state	
-
+    else
+	KillToggled = false
     end
 end)
 
@@ -70,6 +72,10 @@ end)
 
 KeybindsTG:NewKeybind("Toggle Gui", "Toggles The Inhaler X Gui", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI()
+end)
+
+KeybindsC:NewKeybind("Toggle KillAura", "Toggles The Inhaler X Gui", Enum.KeyCode.RightShift, function()
+	
 end)
 
 -- Credits Tab --
