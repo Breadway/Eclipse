@@ -9,7 +9,7 @@ local Combat = Main:NewSection("Combat")
 Combat:NewToggle("KillAura", "Automatically Attack Players", function(state)
     if state then
 	repeat
-		wait(0.1)
+		wait(0.3)
         	for i,v in pairs(game.Players:GetPlayers()) do
 			local vchr = v.Character
 			if vchr and v~=Player and v.Team~=Player.Team and Character and Character.Humanoid.Health>0 then
