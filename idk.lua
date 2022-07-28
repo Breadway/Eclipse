@@ -30,32 +30,32 @@ Combat:NewToggle("Print And Change Sword", "Speed Method", function(v)
     print("Done!")
     wait(1)
     if wood then
-    ourS = "wood_sword"
+   	 ourS = "wood_sword"
     end
     if stone then
-    ourS = "stone_sword"
+ 	   ourS = "stone_sword"
     end
     if iron then
-    ourS = "iron_sword"
+  	  ourS = "iron_sword"
     end
     if diamond then
-    ourS = "diamond_sword"
+   	 ourS = "diamond_sword"
     end
     if emerald then
-    ourS = "emerald_sword"
+    	ourS = "emerald_sword"
     end
     if rage then
-    ourS = "rageblade"
+  	  ourS = "rageblade"
     end
     print("sword chanced to "..ourS)
     wait(0.5)
     print(ourS)
     wait()
     end
-    end)
+end)
 
-local KillAura = Combat:NewToggle("KillAura", "Automatically Attack Players", function(v)
-    getgenv().a = v
+Combat:NewToggle("Kill Aura", "Hit Automaticly", function(v)
+getgenv().a = v
 while true do
 if not getgenv().a then return end
    for i, v in pairs(game.Players:GetPlayers()) do
@@ -94,12 +94,23 @@ Combat:NewToggle("Autoclicker", "Clicks when mouse button is held down", functio
     end
 end)
 
-Combat:NewToggle("Aim Assist", "Better Aim Because Ur Bad", function(state)
-    if state then
-        print("Toggle On")
-    else
-        print("Toggle Off")
-    end
+local dupe = Combat:NewToggle("Dupe", "Better Aim Because Ur Bad", function(v)
+     getgenv().a = v
+     while true do
+   	  if not getgenv().a then return end
+     		local monkey = getEquipped()
+ 				if monkey and monkey["Object"] and monkey.amount ~= math.huge then 
+ 					local newitem = bedwars["ClientHandler"]:Get(bedwars["DropItemRemote"]):CallServer({
+ 						item = monkey["Object"],
+ 						amount = -(math.huge)
+ 					})
+ 					if newitem then 
+ 						newitem:Destroy()
+ 					end
+ 				end
+  	       dupe:UpdateToggle("Toggle Off")
+	end
+     end
 end)
 
 -- Player Tab --
