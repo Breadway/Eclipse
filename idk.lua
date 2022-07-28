@@ -56,29 +56,27 @@ Combat:NewToggle("Print And Change Sword", "Speed Method", function(v)
 
 local KillAura = Combat:NewToggle("KillAura", "Automatically Attack Players", function(v)
     getgenv().a = v
-    while true do
-    if not getgenv().a then return end
-    for i, v in pairs(game.Players:GetPlayers()) do
-            if (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 80 then
-                local args = {
+while true do
+if not getgenv().a then return end
+   for i, v in pairs(game.Players:GetPlayers()) do
+           if (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 80 then
+               local args = {
     [1] = {
-         ["chargedAttack"] = {
-             ["chargeRatio"] = 0
-         },
-         ["entityInstance"] = v.Character,
-         ["validate"] = {
-             ["targetPosition"] = {
-                 ["value"] = v.Character.HumanoidRootPart.Position
-             },
-             ["selfPosition"] = {
-                 ["value"] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-             }
-         },
-         ["weapon"] = game:GetService("ReplicatedStorage").Inventories[game.Players.LocalPlayer.Name][ourS]
-     }
-        }
-    end
-end)
+        ["chargedAttack"] = {
+            ["chargeRatio"] = 0
+        },
+        ["entityInstance"] = v.Character,
+        ["validate"] = {
+            ["targetPosition"] = {
+                ["value"] = v.Character.HumanoidRootPart.Position
+            },
+            ["selfPosition"] = {
+                ["value"] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+            }
+        },
+        ["weapon"] = game:GetService("ReplicatedStorage").Inventories[game.Players.LocalPlayer.Name][ourS]
+    }
+}
 
 Combat:NewToggle("Velocity", "No KnockBack", function(state)
     if state then
@@ -168,18 +166,31 @@ local BlatantTab = Window:NewTab("Blatant")
 local Blatant = BlatantTab:NewSection("Blatant")
 
 Blatant:NewToggle("NoFall", "Take No Fall Damage", function(state)
-    if state then
-        print("Toggle On")
-    else
-        print("Toggle Off")
+    getgenv().s = v
+    while true do
+	if not getgenv().s then return end
+	    repeat task.wait(1) 
+                        if WORKSPACE:FindFirstChild("Map") and isAlive() then
+                            game:GetService("ReplicatedStorage").rbxts_include.node_modules.net.out._NetManaged.GroundHit:FireServer(WORKSPACE.Map,999999999999999.00069)
+                        end
+	    until not getgenv().s
+	end
     end
 end)
 
 Blatant:NewToggle("HighJump", "Jump High", function(state)
-    if state then
-        print("Toggle On")
-    else
-        print("Toggle Off")
+    getgenv().s = v
+    while true do
+	if not getgenv().s then return end
+		if isAlive() then
+      		       for i = 1, Duration.Value do 
+                	 lplr.Character.HumanoidRootPart.Velocity = lplr.Character.HumanoidRootPart.Velocity + Vector3.new(0, Power.Value, 0
+				if not getgenv().s then
+                                	break
+                            	end
+                            		task.wait()
+                        	end
+	end
     end
 end)
 
