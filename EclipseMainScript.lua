@@ -8,7 +8,7 @@ local swords = {"wood_sword", "stone_sword", "iron_sword", "diamond_sword", "eme
 local lplr = game.Players.LocalPlayer
 local PLAYERS = game:GetService("Players")
 local Future = shared.Future
-local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.controllers.game["block-break-controller"]).BlockBreakController.onEnable, 1)
 local cam = game.workspace.CurrentCamera
 local function getremote(tab)
 	for i,v in pairs(tab) do
