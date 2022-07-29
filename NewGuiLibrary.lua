@@ -142,7 +142,7 @@ function CreateGui()
     TextLabel_5.TextSize = 14.000
     TextLabel_5.TextWrapped = true
     local Combat = {}
-    function Combat:CreateToggle(Name)
+    function CreateToggle(Name)
        local TextButton_5 = Instance.new("TextButton")
        TextButton_5.Parent = CombatFrame
        TextButton_5.Text = Name
@@ -159,7 +159,11 @@ function CreateGui()
     return Combat
 end
 
-local main = CreateGui()
+local e = CreateGui()
+
+function CreateToggle(Name)
+   e:CreateToggle(Name)
+end
 
 
 return Library1
