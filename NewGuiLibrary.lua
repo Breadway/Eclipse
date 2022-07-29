@@ -1,6 +1,6 @@
 
 local injected = true
-local Library = {}
+local Library1 = {}
 
 function CreateGui()
     local ScreenGui = Instance.new("ScreenGui")
@@ -162,3 +162,4 @@ end
 local main = CreateGui()
 
 
+return Library1
