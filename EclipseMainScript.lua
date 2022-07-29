@@ -9,6 +9,7 @@ local lplr = game.Players.LocalPlayer
 local PLAYERS = game:GetService("Players")
 local Future = shared.Future
 local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+local cam = game.workspace.CurrentCamera
 local function getremote(tab)
 	for i,v in pairs(tab) do
 		if v == "Client" then
@@ -21,6 +22,7 @@ local repstorage = game:GetService("ReplicatedStorage")
 local bedwars = {
     ["AnimationUtil"] = require(repstorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out["shared"].util["animation-util"]).AnimationUtil,
     ["VelocityUtil"]  = require(game:GetService("ReplicatedStorage")["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out["shared"].util["velocity-util"]).VelocityUtil, 
+    ["ClientHandler"] = Client,
 			["AngelUtil"] = require(repstorage.TS.games.bedwars.kit.kits.angel["angel-kit"]),
 			["AppController"] = require(repstorage["rbxts_include"]["node_modules"]["@easy-games"]["game-core"].out.client.controllers["app-controller"]).AppController,
 			["BatteryRemote"] = getremote(debug.getconstants(debug.getproto(debug.getproto(KnitClient.Controllers.BatteryController.KnitStart, 1), 1))),
@@ -216,6 +218,15 @@ local function getLowestHpPlrNear(max)
     return returning
 end
 
+local function getwool()
+	for i5, v5 in pairs(bedwars["getInventory"](lplr)["items"]) do
+		if v5.itemType:match("wool") then
+			return v5.itemType, v5.amount
+		end
+	end	
+	return nil
+end
+
 local function getBestSword()
 	local data, slot, bestdmg
     local items = bedwars.getInventory().items
@@ -233,6 +244,12 @@ end
 
 local function canBeTargeted(plr, doTeamCheck) 
     return Future.canBeTargeted(plr)
+end
+
+local function hashvector(vec)
+	return {
+		value = vec
+	}
 end
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
@@ -322,6 +339,7 @@ local KillAura = Combat:NewToggle("Kill Aura", "Hit Automaticly", function(v)
     getgenv().l = v
     print("Debug")
     while getgenv().l do
+        wait(1)
         wait(0.3)
         local TargetPart = TargetPart or Instance.new("Part")
                 TargetPart.Color = Color3.fromRGB(200, 0, 0)
@@ -332,6 +350,7 @@ local KillAura = Combat:NewToggle("Kill Aura", "Hit Automaticly", function(v)
                 spawn(function() -- Begin main attack loop
                     repeat
                         if isAlive() then 
+                            wait(1)
                             
                             local Root = RealRoot or lplr.Character.HumanoidRootPart
 
@@ -348,7 +367,7 @@ local KillAura = Combat:NewToggle("Kill Aura", "Hit Automaticly", function(v)
                             --for i,v in next, plrs do 
                                 if v  then    
                                     currentTarget = v
-                                    local weapon = getBestSword()
+                                    local weapon = ourS
                                     local selfpos = Root.Position + (AuraDistance.Value > 14 and (Root.Position - v.Character.HumanoidRootPart.Position).magnitude > 14 and (CFrame.lookAt(Root.Position, v.Character.HumanoidRootPart.Position).lookVector * 4) or Vector3.new(0, 0, 0))
                                     local attackArgs = {
                                         ["weapon"] = weapon~=nil and weapon.tool,
@@ -364,7 +383,7 @@ local KillAura = Combat:NewToggle("Kill Aura", "Hit Automaticly", function(v)
                                         ["chargedAttack"] = {["chargeRatio"] = 1},
                                     }
                                     --spawn(function()
-                                        local x = bedwars.ClientHandler:Get(bedwars["AttackRemote"]):CallServer(attackArgs)
+                                        local x = bedwars.ClientHandler:getremote(bedwars["AttackRemote"]):CallServer(attackArgs)
                                         --print("Aura attack was successful:", x)
                                     --end)
                                     task.wait(1 / 3) -- was 0.03
