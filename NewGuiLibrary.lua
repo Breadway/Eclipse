@@ -2,7 +2,7 @@
 local injected = true
 local Library = {}
 
-function Library:CreateGui()
+function CreateGui()
     local ScreenGui = Instance.new("ScreenGui")
     local Frame = Instance.new("Frame")
     local UIListLayout = Instance.new("UIListLayout")
@@ -161,5 +161,4 @@ end
 
 local main = Library:CreateGui()
 
-main:CreateToggle("KillAura")
 
