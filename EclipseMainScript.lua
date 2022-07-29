@@ -383,7 +383,7 @@ local KillAura = Combat:NewToggle("Kill Aura", "Hit Automaticly", function(v)
                                         ["chargedAttack"] = {["chargeRatio"] = 1},
                                     }
                                     --spawn(function()
-                                        local x = bedwars.ClientHandler:getremote(bedwars["AttackRemote"]):CallServer(attackArgs)
+                                        local x = bedwars.["ClientHandler"]:getremote(bedwars["AttackRemote"]):CallServer(attackArgs)
                                         --print("Aura attack was successful:", x)
                                     --end)
                                     task.wait(1 / 3) -- was 0.03
