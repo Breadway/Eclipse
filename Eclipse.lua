@@ -161,4 +161,5 @@ end
 
 local main = Library:CreateGui()
 
-return Library
+main:CreateToggle("KillAura")
+
