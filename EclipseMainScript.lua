@@ -365,7 +365,7 @@ local KillAura = Combat:NewToggle("Kill Aura", "Hit Automaticly", function(v)
                                     local weapon = ourS
                                     local selfpos = Root.Position + (AuraDistance.Value > 14 and (Root.Position - v.Character.HumanoidRootPart.Position).magnitude > 14 and (CFrame.lookAt(Root.Position, v.Character.HumanoidRootPart.Position).lookVector * 4) or Vector3.new(0, 0, 0))
                                     local attackArgs = {
-                                        ["weapon"] = weapon~=nil and weapon.tool,
+                                        ["weapon"] = game:GetService("ReplicatedStorage").Inventories[game.Players.LocalPlayer.Name][ourS],
                                         ["entityInstance"] = v.Character,
                                         ["validate"] = {
                                             ["raycast"] = {
@@ -378,7 +378,7 @@ local KillAura = Combat:NewToggle("Kill Aura", "Hit Automaticly", function(v)
                                         ["chargedAttack"] = {["chargeRatio"] = 1},
                                     }
                                     --spawn(function()
-                                        local x = bedwars["ClientHandler"]:Get(bedwars["AttackRemote"]):CallServer(attackArgs)
+                                        local x = bedwars["AttackRemote"]:CallServer(attackArgs)
                                         --print("Aura attack was successful:", x)
                                     --end)
                                     task.wait(1 / 3) -- was 0.03
