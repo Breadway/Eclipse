@@ -1,8 +1,3 @@
--- Re edited by emirtube11 
--- Main owner Breadway
-
--- Lol i spend 5 hours on it :skull:
-
 local ourS = "wood_sword"
 local swords = {"wood_sword", "stone_sword", "iron_sword", "diamond_sword", "emerald_sword", "rageblade"}
 local lplr = game.Players.LocalPlayer
