@@ -364,7 +364,7 @@ local KillAura = Combat:NewToggle("Kill Aura", "Hit Automaticly", function(v)
                                 currentTarget = nil
                             end
 
-                            --for i,v in next, plrs do 
+                            for i,v in next, plrs do 
                                 if v  then    
                                     currentTarget = v
                                     local weapon = ourS
@@ -388,7 +388,7 @@ local KillAura = Combat:NewToggle("Kill Aura", "Hit Automaticly", function(v)
                                     --end)
                                     task.wait(1 / 3) -- was 0.03
                                 end
-                            --end
+                            end
                         end
                     until not getgenv().l
                 end)
