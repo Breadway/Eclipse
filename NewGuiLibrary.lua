@@ -161,4 +161,3 @@ end
 
 local main = Library:CreateGui()
 
-return Library
