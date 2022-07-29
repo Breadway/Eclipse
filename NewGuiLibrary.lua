@@ -159,6 +159,6 @@ function CreateGui()
     return Combat
 end
 
-local main = Library:CreateGui()
+local main = CreateGui()
 
 
