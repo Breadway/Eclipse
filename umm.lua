@@ -141,7 +141,7 @@ UIListLayout_6.Padding = UDim.new(0, 100)
 	function Blatant:AddButton(Name)
 		local TextButton = Instance.new("TextButton")
 
-		TextButton.Parent = Blatant_2
+		TextButton.Parent = Blatant1
 		TextButton.Name = Name
 		TextButton.Text = Name
 		TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
