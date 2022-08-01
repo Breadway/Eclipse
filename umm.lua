@@ -139,12 +139,15 @@ UIListLayout_6.Padding = UDim.new(0, 100)
 	
 	local Blatant = {}
 	
-	function Blatant:AddButton(Name)
+	function Blatant:AddButton(Name, Section, Call)
 		local TextButton = Instance.new("TextButton")
 		print("succes")
-		TextButton.Parent = Blatant1
+        if Section = "Blatant" then
+            TextButton.Parent = Blatant
+        end
+		TextButton.Parent = Parent
 		TextButton.Name = "Button"
-		TextButton.Text = "hello"
+		TextButton.Text = Name
 		TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TextButton.Position = UDim2.new(0, 0, 0.105485231, 0)
 		TextButton.Size = UDim2.new(0, 161, 0, 50)
@@ -153,6 +156,10 @@ UIListLayout_6.Padding = UDim.new(0, 100)
 		TextButton.TextScaled = true
 		TextButton.TextSize = 14.000
 		TextButton.TextWrapped = true
+
+        TextButton.MouseButton1Down:connect(function()
+            pcall(Call)
+        end)
 	end
 
 	return Blatant
