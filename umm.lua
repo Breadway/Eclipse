@@ -31,6 +31,7 @@ Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Frame.BackgroundTransparency = 1.000
 Frame.Position = UDim2.new(0.0187546778, 0, 0.0171358772, 0)
 Frame.Size = UDim2.new(0, 1283, 0, 788)
+	
 
 Combat.Name = "Combat"
 Combat.Parent = Frame
