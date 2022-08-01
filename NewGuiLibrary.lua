@@ -31,10 +31,10 @@ function Lib:CreateMain()
 	Frame.Position = UDim2.new(0.0187546778, 0, 0.0171358772, 0)
 	Frame.Size = UDim2.new(0, 1283, 0, 788)
 	
-	Combat.Name = "Combat"
-	Combat.Parent = Frame
-	Combat.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	Combat.Size = UDim2.new(0, 161, 0, 474)
+	Combat1.Name = "Combat"
+	Combat1.Parent = Frame
+	Combat1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Combat1.Size = UDim2.new(0, 161, 0, 474)
 	
 	UIListLayout.Parent = Combat
 	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
