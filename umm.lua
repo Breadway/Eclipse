@@ -130,26 +130,6 @@ UIListLayout_6.Parent = Frame
 UIListLayout_6.FillDirection = Enum.FillDirection.Horizontal
 UIListLayout_6.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout_6.Padding = UDim.new(0, 100)
-
-wait(10)
-
-Frame:Destroy()
-Combat:Destroy()
-UIListLayout:Destroy()
-CombatLabel:Destroy()
-Blatant1:Destroy()
-UIListLayout_2:Destroy()
-BlatantLabel:Destroy()
-Render:Destroy()
-UIListLayout_3:Destroy()
-RenderLabel:Destroy()
-Utility:Destroy()
-UIListLayout_4:Destroy()
-UtilityLabel:Destroy()
-World:Destroy()
-UIListLayout_5:Destroy()
-WorldLabel:Destroy()
-UIListLayout_6:Destroy()
 	
 	local Blatant = {}
 	
@@ -169,6 +149,25 @@ UIListLayout_6:Destroy()
 		TextButton.TextWrapped = true
 	end
 	
+	wait(10)
+
+Frame:Destroy()
+Combat:Destroy()
+UIListLayout:Destroy()
+CombatLabel:Destroy()
+Blatant1:Destroy()
+UIListLayout_2:Destroy()
+BlatantLabel:Destroy()
+Render:Destroy()
+UIListLayout_3:Destroy()
+RenderLabel:Destroy()
+Utility:Destroy()
+UIListLayout_4:Destroy()
+UtilityLabel:Destroy()
+World:Destroy()
+UIListLayout_5:Destroy()
+WorldLabel:Destroy()
+UIListLayout_6:Destroy()
 	return Blatant
 end
 
