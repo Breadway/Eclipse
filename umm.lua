@@ -24,6 +24,7 @@ local UIListLayout_6 = Instance.new("UIListLayout")
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.Name = "Eclipse"
 
 Frame.Parent = ScreenGui
 Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -140,7 +141,7 @@ UIListLayout_6.Padding = UDim.new(0, 100)
 	
 	function Blatant:AddButton(Name)
 		local TextButton = Instance.new("TextButton")
-
+		print("succes")
 		TextButton.Parent = Blatant1
 		TextButton.Name = "Button"
 		TextButton.Text = "hello"
@@ -153,27 +154,7 @@ UIListLayout_6.Padding = UDim.new(0, 100)
 		TextButton.TextSize = 14.000
 		TextButton.TextWrapped = true
 	end
-	
-	wait(10)
 
-ScreenGui:Destroy()
-Frame:Destroy()
-Combat:Destroy()
-UIListLayout:Destroy()
-CombatLabel:Destroy()
-Blatant1:Destroy()
-UIListLayout_2:Destroy()
-BlatantLabel:Destroy()
-Render:Destroy()
-UIListLayout_3:Destroy()
-RenderLabel:Destroy()
-Utility:Destroy()
-UIListLayout_4:Destroy()
-UtilityLabel:Destroy()
-World:Destroy()
-UIListLayout_5:Destroy()
-WorldLabel:Destroy()
-UIListLayout_6:Destroy()
 	return Blatant
 end
 
