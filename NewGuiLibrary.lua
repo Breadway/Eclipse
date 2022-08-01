@@ -153,3 +153,24 @@ UIListLayout_6.Padding = UDim.new(0, 100)
 end
 
 return Lib
+
+wait(10)
+
+Frame:Destroy()
+Combat:Destroy()
+UIListLayout:Destroy()
+CombatLabel:Destroy()
+Blatant1:Destroy()
+UIListLayout_2:Destroy()
+BlatantLabel:Destroy()
+Render:Destroy()
+UIListLayout_3:Destroy()
+RenderLabel:Destroy()
+Utility:Destroy()
+UIListLayout_4:Destroy()
+UtilityLabel:Destroy()
+World:Destroy()
+UIListLayout_5:Destroy()
+WorldLabel:Destroy()
+UIListLayout_6:Destroy()
+
