@@ -33,6 +33,7 @@ Frame.Size = UDim2.new(0, 1283, 0, 788)
 
 Combat.Name = "Combat"
 Combat.Parent = Frame
+Combat.BackgroundTransparency = 1
 Combat.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Combat.Size = UDim2.new(0, 161, 0, 474)
 
@@ -52,6 +53,7 @@ CombatLabel.TextWrapped = true
 
 Blatant1.Name = "Blatant1"
 Blatant1.Parent = Frame
+Blatant1.BackgroundTransparency = 1
 Blatant1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Blatant1.Size = UDim2.new(0, 161, 0, 474)
 
@@ -71,6 +73,7 @@ BlatantLabel.TextWrapped = true
 
 Render.Name = "Render"
 Render.Parent = Frame
+Render.BackgroundTransparency = 1
 Render.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Render.Size = UDim2.new(0, 161, 0, 474)
 
@@ -90,6 +93,7 @@ RenderLabel.TextWrapped = true
 
 Utility.Name = "Utility"
 Utility.Parent = Frame
+Utility.BackgroundTransparency = 1
 Utility.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Utility.Size = UDim2.new(0, 161, 0, 474)
 
@@ -109,6 +113,7 @@ UtilityLabel.TextWrapped = true
 
 World.Name = "World"
 World.Parent = Frame
+World.BackgroundTransparency = 1
 World.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 World.Size = UDim2.new(0, 161, 0, 474)
 
@@ -151,6 +156,7 @@ UIListLayout_6.Padding = UDim.new(0, 100)
 	
 	wait(10)
 
+ScreenGui:Destroy()
 Frame:Destroy()
 Combat:Destroy()
 UIListLayout:Destroy()
