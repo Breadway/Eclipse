@@ -3,7 +3,7 @@ local Lib = {}
 function Lib:CreateMain()
 	local ScreenGui = Instance.new("ScreenGui")
 	local Frame = Instance.new("Frame")
-	local Combat = Instance.new("Frame")
+	local Combat1 = Instance.new("Frame")
 	local UIListLayout = Instance.new("UIListLayout")
 	local Blatant = Instance.new("TextLabel")
 	local Blatant_2 = Instance.new("Frame")
@@ -131,7 +131,7 @@ function Lib:CreateMain()
 	function Combat:AddButton(Name)
 		local TextButton = Instance.new("TextButton")
 
-		TextButton.Parent = game.StarterGui.ScreenGui.Frame.Combat
+		TextButton.Parent = Combat1
 		TextButton.Name = Name
 		TextButton.Text = Name
 		TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -143,6 +143,8 @@ function Lib:CreateMain()
 		TextButton.TextSize = 14.000
 		TextButton.TextWrapped = true
 	end
+	
+	return Combat
 end
 
 return Lib
