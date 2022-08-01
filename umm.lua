@@ -142,8 +142,8 @@ UIListLayout_6.Padding = UDim.new(0, 100)
 		local TextButton = Instance.new("TextButton")
 
 		TextButton.Parent = Blatant1
-		TextButton.Name = Name
-		TextButton.Text = Name
+		TextButton.Name = "Button"
+		TextButton.Text = "hello"
 		TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TextButton.Position = UDim2.new(0, 0, 0.105485231, 0)
 		TextButton.Size = UDim2.new(0, 161, 0, 50)
