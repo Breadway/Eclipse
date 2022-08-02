@@ -14,6 +14,7 @@ local Tab = Window:NewTab("Combat")
 local Section = Tab:NewSection("Combat")
 
 local Gap = Window:NewTab("Blatant")
+
 local Gaps = Gap:NewSection("Speed Methods")
 local FGaps = Gap:NewSection("Fly/Gravity Methods")
 
