@@ -12,7 +12,6 @@ local PhaseToggleVal = false
 local ScaffoldToggleVal = false
 local SwimToggleVal = false
 local lplr = game.Players.LocalPlayer
-print("your nan")
 
 
 function getinv(plr)
