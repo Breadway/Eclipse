@@ -13,6 +13,57 @@ local ScaffoldToggleVal = false
 local SwimToggleVal = false
 local lplr = game.Players.LocalPlayer
 
+-- Anti error
+for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do v:Disable() end
+-- Lol
+
+local repstorage = game.ReplicatedStorage
+
+local entity = loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/Libraries/entityHandler.lua", true))()
+
+local Flamework = require(repstorage["rbxts_include"]["node_modules"]["@flamework"].core.out).Flamework
+repeat task.wait() until Flamework.isInitialized
+
+local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+
+local Client = require(repstorage.TS.remotes).default.Client
+
+local function getremote(tab)
+	for i,v in pairs(tab) do
+		if v == "Client" then
+			return tab[i + 1]
+		end
+	end
+	return ""
+end
+
+local bedwars = {
+
+["ClientHandler"] = Client,
+["PaintRemote"] = getremote(debug.getconstants(KnitClient.Controllers.PaintShotgunController.fire))
+
+}
+
+print(Client)
+
+local function GetNearestHumanoidToPosition(player, distance, overridepos)
+	local closest, returnedplayer = distance, nil
+    if entity.isAlive then
+        for i, v in pairs(entity.entityList) do
+			if v.Targetable and targetCheck(v) then
+				local mag = (entity.character.HumanoidRootPart.Position - v.RootPart.Position).magnitude
+				if overridepos and mag > distance then 
+					mag = (overridepos - v.RootPart.Position).magnitude
+				end
+				if mag <= closest then
+					closest = mag
+					returnedplayer = v
+				end
+			end
+        end
+	return returnedplayer
+end
+end
 
 function getinv(plr)
     local plr = plr or lplr
@@ -126,13 +177,28 @@ TargetPart.CanCollide = false
 TargetPart.Anchored = true
 
 local KillAura = Combat:AddToggle({
-    Name = "KillAura",
+    Name = "KillAura (qwertyui#0001 is best)",
     Default = false,
     Save = true,
     Flag = "KillAura",
     Callback = function(Value)
-        
-    end    
+        shared.toggleee = Value
+while shared.toggleee do
+wait()
+							local plrs = game:GetService("Players"):GetPlayers()
+							for i,plr in pairs(plrs) do
+									local selfpos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+									local newpos = plr.Character:FindFirstChild("UpperTorso").Position
+bedwars["ClientHandler"]:Get(bedwars["PaintRemote"]):SendToServer(selfpos, CFrame.lookAt(selfpos, newpos).lookVector)
+if plr.Character.Humanoid.Health == 0 then
+if not plr.Character.UpperTorso then
+print("a")
+plr.Character.UpperTorso.CFrame = lplr.Character.HumanoidRootPart.CFrame
+end
+end
+end
+end
+end
 })
 
 print(OrionLib.Flags["KillAura"].Value)
@@ -143,6 +209,7 @@ local Blatant = Window:MakeTab({
     PremiumOnly = false
 })
 
+--[[
 local BowAura = Blatant:AddToggle({
     Name = "BowAura",
     Default = false,
@@ -166,45 +233,56 @@ local FastConsume = Blatant:AddToggle({
 })
 
 print(OrionLib.Flags["FastConsume"].Value)
+--]]
+local flymesto = false
+local flyme = Blatant:AddToggle({
+	Name = "Fly",
+	Default = false,
+	Callback = function(vfs)
+        LongJumpToggleVall = vfs
+        longjumpvall = vfs
+shared.toggled2 = vfs
+shared.speed = 35
+local Step = 0
+while shared.toggled2 do
+	wait(0.400)
+lplr.Character.Humanoid.WalkSpeed = 23
+	local x = lplr.Character.HumanoidRootPart.Velocity.X
+	local z = lplr.Character.HumanoidRootPart.Velocity.Z
+	lplr.Character.HumanoidRootPart.Velocity = Vector3.new(x,35,z)
+end
+end
+})
+
+local healthexploit = Blatant:AddToggle({
+	Name = "Loop Health (Buy Medkit)",
+	Default = false,
+	Callback = function(vfss)
+shared.toggled2 = vfss
+shared.speed = 35
+local Step = 0
+while shared.toggled2 do
+wait(0.100)
+local args = {
+    [1] = "HEALING_BACKPACK"
+}
+
+game:GetService("ReplicatedStorage"):FindFirstChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events").useAbility:FireServer(unpack(args))
+wait()
+end
+end
+})
 
 local highjumpforce = {["Value"] = 50}
 local HighJump = Blatant:AddButton({
     Name = "HighJump",
     Callback = function()
         local highjumpval = true
-            lplr.Character.Humanoid:ChangeState("Jumping")
-            task.wait()
-            workspace.Gravity = 5
-            spawn(function()
-                for i = 1, highjumpforce["Value"] do
-                        wait()
-                        if (not highjumpval) then return end
-                    lplr.Character.Humanoid:ChangeState("Jumping")
-                end
-            end)
-            spawn(function()
-                for i = 1, highjumpforce["Value"] / 28 do
-                    task.wait(0.1)
-                    lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Freefall)
-                    task.wait(0.1)
-                    lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                end
-            end)
-            workspace.Gravity = 150 
-    end    
-})
-
-Blatant:AddSlider({
-    Name = "HighJumpForce",
-    Min = 0,
-    Max = 100,
-    Default = 20,
-    Color = Color3.new(255,255,255),
-    Increment = 1,
-    ValueName = "",
-    Callback = function(Value)
-        highjumpforce["Value"] = Value
-    end    
+for i = 1,25 do
+    task.wait(0.05)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,i * 3,0)
+end
+end   
 })
 
 local mapname = getmapname()
@@ -214,17 +292,18 @@ local NoFall = Blatant:AddToggle({
     Save = true,
     Flag = "NoFall",
     Callback = function(Value)
-        if Value then
-            while Value do
-                wait(0.1)
-                game:GetService("ReplicatedStorage").rbxts_include.node_modules.net.out._NetManaged.GroundHit:FireServer(workspace.Map.Worlds[mapname].Blocks,1645488277.345853)
-            end
-        end
+getgenv().asfg = Value
+while true do
+if not getgenv().asfg then return end
+game:GetService("ReplicatedStorage").rbxts_include.node_modules.net.out._NetManaged.GroundHit:FireServer(workspace.Map.Worlds[mapname].Blocks,1645488277.345853)
+wait(0.1)
+end
     end    
 })
 
 print(OrionLib.Flags["NoFall"].Value)
 
+--[[
 local NoSlowdown = Blatant:AddToggle({
     Name = "NoSlowdown",
     Default = false,
@@ -249,6 +328,7 @@ local Phase = Blatant:AddToggle({
 
 print(OrionLib.Flags["Phase"].Value)
 
+--]]
 local Scaffold = Blatant:AddToggle({
     Name = "Scaffold",
     Default = false,
@@ -267,7 +347,7 @@ local Scaffold = Blatant:AddToggle({
         end 
     end    
 })
-
+--[[
 local Swim = Blatant:AddToggle({
     Name = "Swim",
     Default = false,
@@ -279,62 +359,9 @@ local Swim = Blatant:AddToggle({
 })
 
 print(OrionLib.Flags["Swim"].Value)
-
-local speedvalue = {["Value"] = 23}
-Blatant:AddDropdown({
-    Name = "Speed",
-    Default = "23 Speed Method",
-    Flag = "Speed",
-    Save = true,
-    Options = {
-        "23 Speed Method",
-        "Speed Method 1",
-        "Speed Method 2",
-        "Speed Method 3",
-        "Speed Method 4",
-    },
-    Callback = function(Value)
-        if Value == "23 Speed Method" then
-            wait(0.5)
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 23
-        elseif Value == "Speed Method 1" then
-            while Value == "Speed Method 1" do
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 30
-                wait(0.3)
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 18
-                wait(1.7)
-            end
-        elseif Value == "Speed Method 2" then
-            while Value == "Speed Method 2" do
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 40
-                wait(0.3)
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 15
-                wait(1.7)
-            end
-        else
-            if Value == "Speed Method 3" then
-                while Value == "Speed Method 3" do
-                    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
-                    wait(0.3)
-                    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 23
-                    wait(0.8)
-                end
-            else
-                if Value == "Speed Method 4" then
-                    while Value == "Speed Method 4" do
-                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 90
-                        wait(0.2)
-                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-                        wait(1)
-                    end
-                end
-            end
-        end
-    end    
-})
-
+--]]
 local LJSpeed = {["Value"] = 100}
-local gravityval = {["Value"] = 0}
+local gravityval = {["Value"] = 15}
 local longjumpval = false
 local oldthing
 local LongJump = Blatant:AddToggle({
@@ -352,6 +379,7 @@ local LongJump = Blatant:AddToggle({
                     Image = "rbxassetid://4483345998",
                     Time = 2
                 })
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
                 workspace.Gravity = gravityval["Value"]
                 repeat
                     if (not longjumpval) then break end
@@ -371,6 +399,79 @@ local LongJump = Blatant:AddToggle({
                 longjumpval = false
                 return
             end
+    end    
+})
+
+local speedy = {["Value"] = 23}
+local lowwspeedy = {["Value"] = 16}
+local waits = {["Value"] = 0.4}
+local afwaits = {["Value"] = 0.5}
+local Speedyy = Blatant:AddToggle({
+    Name = "Speed",
+    Default = false,
+    Save = true,
+    Flag = "Speeds",
+    Callback = function(Value)
+getgenv().asdf = Value
+       while true do
+       if not getgenv().asdf then return end
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speedy.Value
+wait(waits.Value)
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = lowwspeedy.Value
+wait(afwaits.Value)
+       end
+    end  
+})
+
+Blatant:AddSlider({
+    Name = "Speed",
+    Min = 23,
+    Max = 65,
+    Default = 20,
+    Color = Color3.new(255,255,255),
+    Increment = 0.5,
+    ValueName = "",
+    Callback = function(Value)
+        speedy["Value"] = Value
+    end    
+})
+
+Blatant:AddSlider({
+    Name = "Lower Speed",
+    Min = 1,
+    Max = 23,
+    Default = 20,
+    Color = Color3.new(255,255,255),
+    Increment = 0.5,
+    ValueName = "",
+    Callback = function(Value)
+        lowwspeedy["Value"] = Value
+    end    
+})
+
+Blatant:AddSlider({
+    Name = "Wait Time",
+    Min = 0.3,
+    Max = 1.5,
+    Default = 0.3,
+    Color = Color3.new(255,255,255),
+    Increment = 0.1,
+    ValueName = "",
+    Callback = function(Value)
+        waits["Value"] = Value
+    end    
+})
+
+Blatant:AddSlider({
+    Name = "After Wait Time",
+    Min = 0.4,
+    Max = 1.5,
+    Default = 0.4,
+    Color = Color3.new(255,255,255),
+    Increment = 0.1,
+    ValueName = "",
+    Callback = function(Value)
+        afwaits["Value"] = Value
     end    
 })
 
@@ -404,6 +505,10 @@ local AntiVoid = World:AddToggle({
                     game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
                     wait(0.2)
                     game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
+                    wait(0.2)
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
+                    wait(0.2)
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
                 end
             end)
         elseif partmade then
@@ -420,7 +525,7 @@ local Render = Window:MakeTab({
     PremiumOnly = false
 })
 
-local Arrows = Render:AddToggle({
+--[[local Arrows = Render:AddToggle({
     Name = "Arrows",
     Default = false,
     Save = true,
@@ -491,13 +596,14 @@ local Tracers = Render:AddToggle({
 })
 
 print(OrionLib.Flags["Tracers"].Value)
+--]]
 
 local Utility = Window:MakeTab({
     Name = "Utility",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
-
+--[[
 local Panic = Utility:AddToggle({
     Name = "Panic",
     Default = false,
@@ -533,7 +639,7 @@ local Nuker = Utility:AddToggle({
 })
 
 print(OrionLib.Flags["Nuker"].Value)
-
+--]]
 local Uninject = Utility:AddButton({
     Name = "Uninject",
     Callback = function(Value)
@@ -552,26 +658,10 @@ Keybinds:AddBind({
     Default = Enum.KeyCode.V,
     Hold = false,
     Callback = function()
-        local highjumpval = true
-        lplr.Character.Humanoid:ChangeState("Jumping")
-        task.wait()
-        workspace.Gravity = 5
-        spawn(function()
-            for i = 1, highjumpforce["Value"] do
-                wait()
-                    if (not highjumpval) then return end
-                lplr.Character.Humanoid:ChangeState("Jumping")
-            end
-        end)
-        spawn(function()
-            for i = 1, highjumpforce["Value"] / 28 do
-                task.wait(0.1)
-                lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Freefall)
-                task.wait(0.1)
-                lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-            end
-        end)
-        workspace.Gravity = 169 
+for i = 1,25 do
+    task.wait(0.05)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,i * 3,0)
+end
     end    
 })
 
@@ -588,6 +678,19 @@ Keybinds:AddBind({
     end    
 })
 
+Keybinds:AddBind({
+    Name = "Fly",
+    Default = Enum.KeyCode.R,
+    Hold = false,
+    Callback = function()
+        if LongJumpToggleVall then
+            flyme:Set(false)
+        elseif LongJumpToggleVall == false then
+            flyme:Set(true)
+        end
+    end    
+})
+
 local Credits = Window:MakeTab({
     Name = "Credits",
     Icon = "rbxassetid://4483345998",
@@ -596,6 +699,7 @@ local Credits = Window:MakeTab({
 
 Credits:AddLabel("Owner - Breadway (@Breadway#2678)")
 Credits:AddLabel("Developer - Emi H (@Emi_H#3286)")
+Credits:AddLabel("Developer/Helper - qwertyui (@qwertyui#0001)")
 Credits:AddLabel("Thanks To Future And Vape V4 Owners For Inspiration")
 
 OrionLib:Init()
