@@ -136,7 +136,8 @@ function Lib["CreateMain"]()
 		local api = {}
 
 		function api["AddButton"](argstable)
-			local callback, toggled = false and argstable["Callback"]
+			local callback = argstable["Callback"]
+			local toggled = false
 			local TextButton = Instance.new("TextButton")
 
 			TextButton.Parent = Frame[argstable["Section"]]
@@ -153,9 +154,10 @@ function Lib["CreateMain"]()
 			TextButton.MouseButton1Down:Connect(function()
 				if not toggled then
 					toggled = true
-					pcall(callback)
+					callback(toggled)
 				elseif toggled then
 					toggled = false
+					callback(toggled)
 				end
 			end)
 			
