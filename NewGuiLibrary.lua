@@ -1,10 +1,58 @@
 shared.GuiLibrary = {}
 local api = shared.GuiLibrary
 local UIS = game:GetService("UserInputService")
+local UIToggled = false
+
+function DragGUI(gui, gui2)
+	local MainFrame = gui
+	local TopBar = gui2
+	local camera = workspace.Camera
+	local DragMousePosition
+	local FramePosition
+	local draggable = false
+	
+	TopBar.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			draggable = true
+			DragMousePosition = Vector2.new(input.Position.X, input.Position.Y)
+			FramePosition = Vector2.new(MainFrame.Position.X.Scale, MainFrame.Position.Y.Scale)
+			
+		end
+	end)
+	
+	TopBar.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			draggable = false
+		end
+	end)
+	
+	UIS.InputChanged:Connect(function(input)
+		if draggable then
+			local NewPosition = FramePosition + ((Vector2.new(input.Position.X, input.Position.Y) - DragMousePosition) / camera.ViewportSize)
+			MainFrame.Position = UDim2.new(NewPosition.X, 0, NewPosition.Y, 0)
+		end
+	end)
+end
 
 function api:CreateMain()
 	local MainAPI = {}
-	local Eclipse = Instance.new("ScreenGui")
+	local Eclipse = Instance.new("Frame")
+	Eclipse.Visible = false
+	local Eclipse1 = Instance.new("ScreenGui")
+	Eclipse.Parent = Eclipse1
+	Eclipse.BackgroundTransparency = 1
+	Eclipse.Size = UDim2.new(0, 1257,0, 545)
+	UIS.InputBegan:Connect(function(input)
+		if input.KeyCode == Enum.KeyCode.RightShift then
+			if UIToggled then
+				UIToggled = false
+			else
+				UIToggled = true
+			end
+			Eclipse.Visible = UIToggled
+		end
+	end)
+
 	local Main = Instance.new("Frame")
 	local UICorner = Instance.new("UICorner")
 	local UIListLayout = Instance.new("UIListLayout")
@@ -53,15 +101,16 @@ function api:CreateMain()
 	local UICorner_12 = Instance.new("UICorner")
 	local UIListLayout_12 = Instance.new("UIListLayout")
 
-	Eclipse.Name = "Eclipse"
-	Eclipse.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-	Eclipse.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	Eclipse1.Name = "Eclipse"
+	Eclipse1.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+	Eclipse1.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 	Main.Name = "Main"
 	Main.Parent = Eclipse
 	Main.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
 	Main.Position = UDim2.new(0.0159108993, 0, 0.0368271954, 0)
 	Main.Size = UDim2.new(0, 154, 0, 261)
+
 
 	UICorner.Parent = Main
 
@@ -195,6 +244,12 @@ function api:CreateMain()
 	Combat_2.Position = UDim2.new(0.150602117, 0, 0.0368271954, 0)
 	Combat_2.Size = UDim2.new(0, 154, 0, 261)
 	Combat_2.Visible = false
+	DragGUI(Main, TopBar)
+	DragGUI(Combat_2, TopBar_2)
+	DragGUI(Blatant_2, TopBar_3)
+	DragGUI(Render_3, TopBar_4)
+	DragGUI(Utility, TopBar_5)
+	DragGUI(World_2, TopBar_6)
 
 	UICorner_3.Parent = Combat_2
 
@@ -388,7 +443,7 @@ function api:CreateMain()
 
 	UIListLayout_12.Parent = Frame_6
 	UIListLayout_12.SortOrder = Enum.SortOrder.LayoutOrder
-	
+
 	function MainAPI:COB(argstable)
 		local Name = argstable["Name"]
 		local Function = argstable["Function"]
@@ -401,7 +456,8 @@ function api:CreateMain()
 		local BindValue = ""
 		local children = {}
 		local childrenopen = false
-		
+		API2.Value = callback
+
 		local OptionsButton = Instance.new("TextButton")
 		local Bind = Instance.new("ImageButton")
 		local UICorner = Instance.new("UICorner")
@@ -429,7 +485,7 @@ function api:CreateMain()
 				end
 			end
 		end)
-		
+
 		if callback then
 			OptionsButton.BackgroundColor3 = Color3.fromRGB(120,24,255)
 			callback = true
@@ -440,7 +496,7 @@ function api:CreateMain()
 		Bind.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
 		Bind.Position = UDim2.new(0.78231293, 0, 0.257142872, 0)
 		Bind.Size = UDim2.new(0, 18, 0, 18)
-		
+
 		local BindText = Instance.new("TextButton", Bind)
 		BindText.Name = "BindText"
 		BindText.BackgroundTransparency = 1
@@ -448,22 +504,42 @@ function api:CreateMain()
 		BindText.Text = BindValue
 		BindText.TextColor3 = Color3.fromRGB(255,255,255)
 		
+		local clicked = 0
+		local valid = true
 		BindText.MouseButton1Down:Connect(function()
-			print("Debug")
+			valid = true
+			clicked += 1
 			local detect
+			wait(0.1)
+			
 			detect = UIS.InputBegan:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.Keyboard then
-					BindValue = input.Name
-					BindText.Text = input.KeyCode.Name
-					InputBind2 = input.KeyCode
-					detect:Disconnect()
+					if valid then
+						BindValue = input.Name
+						BindText.Text = input.KeyCode.Name
+						InputBind2 = input.KeyCode
+						detect:Disconnect()
+						valid = false
+						wait(0.1)
+						valid = true
+						clicked = 0
+					end
 				end
 			end)
+			local function Disconnect()
+				detect:Disconnect()
+			end
+			if clicked == 2 then
+				InputBind2 = InputBind
+				BindText.Text = ""
+				valid = false
+				Disconnect()
+			end
 		end)
 
 		UICorner.CornerRadius = UDim.new(0, 6)
 		UICorner.Parent = Bind
-		
+
 		function API2:Toggle()
 			if callback then
 				callback = false
@@ -475,16 +551,70 @@ function api:CreateMain()
 				Function(callback)
 			end
 		end
-		
+
 		OptionsButton.MouseButton1Down:Connect(function()
 			API2:Toggle()
 		end)
-		
+
 		UIS.InputBegan:Connect(function(input)
-			if input.KeyCode == InputBind2 then
+			if input.KeyCode == InputBind2 and valid then
 				API2:Toggle()
 			end
 		end)
+		
+		function API2:CTB(argstable)
+			local Name1 = argstable["Name"]
+			local Default1 = argstable["Default"]
+			local callback1 = Default1
+			
+			local TextBox = Instance.new("Frame")
+			TextBox.Visible = false
+			local UIListLayout = Instance.new("UIListLayout")
+			local Name3 = Instance.new("TextLabel")
+			local Value = Instance.new("TextBox")
+			local UICorner = Instance.new("UICorner")
+			TextBox.Name = Name1
+			TextBox.Parent = Eclipse[Tab].Frame
+			TextBox.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
+			TextBox.Position = UDim2.new(0, 0, 0.159817278, 0)
+			TextBox.Size = UDim2.new(0, 153, 0, 35)
+			children[Name] = TextBox
+
+			UIListLayout.Parent = TextBox
+			UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+			UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+
+			Name3.Name = Name1
+			Name3.Parent = TextBox
+			Name3.Active = true
+			Name3.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
+			Name3.BorderColor3 = Color3.fromRGB(42, 42, 42)
+			Name3.BorderSizePixel = 0
+			Name3.Selectable = true
+			Name3.Size = UDim2.new(0, 98, 0, 35)
+			Name3.Font = Enum.Font.SourceSans
+			Name3.Text = Name1
+			Name3.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Name3.TextSize = 20.000
+			Name3.TextWrapped = true
+
+			Value.Name = "Value"
+			Value.Parent = TextBox
+			Value.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+			Value.Position = UDim2.new(0.640522897, 0, 0, 0)
+			Value.Size = UDim2.new(0, 49, 0, 28)
+			Value.Font = Enum.Font.SourceSans
+			Value.Text = callback1
+			Value.TextColor3 = Color3.fromRGB(0, 0, 0)
+			Value.TextSize = 14.000
+			Value.TextScaled = true
+
+			UICorner.CornerRadius = UDim.new(0, 6)
+			UICorner.Parent = Value
+			
+			return Value
+		end
 		
 		function API2:COB(argstable)
 			local API3 = {}
@@ -492,15 +622,15 @@ function api:CreateMain()
 			local Function1 = argstable["Function"]
 			local Default1 = argstable["Default"]
 			local callback1 = Default1
-			
+
 			local OptionsButton1 = Instance.new("TextButton")
 			local UICorner1 = Instance.new("UICorner")
 			OptionsButton1.Name = Name1
 			OptionsButton1.Parent = Eclipse[Tab].Frame
-			OptionsButton1.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
-			OptionsButton1.BorderColor3 = Color3.fromRGB(54, 54, 54)
+			OptionsButton1.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
+			OptionsButton1.BorderColor3 = Color3.fromRGB(42, 42, 42)
 			OptionsButton1.BorderSizePixel = 0
-			OptionsButton1.Size = UDim2.new(0, 147, 0, 35)
+			OptionsButton1.Size = UDim2.new(0, 153, 0, 35)
 			OptionsButton1.Font = Enum.Font.SourceSans
 			OptionsButton1.Text = Name1
 			OptionsButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -508,29 +638,29 @@ function api:CreateMain()
 			OptionsButton1.TextWrapped = true
 			OptionsButton1.Visible = false
 			children[Name1] = OptionsButton1
-			
-			
+
+
 			function API3:Toggle()
 				if callback1 then
 					callback1 = false
-					OptionsButton1.BackgroundColor3 = Color3.fromRGB(42,42,42)
-					Function(callback1)
+					OptionsButton1.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
+					Function1(callback1)
 				else
 					callback1 = true
 					OptionsButton1.BackgroundColor3 = Color3.fromRGB(120,24,255)
-					Function(callback1)
+					Function1(callback1)
 				end
 			end
-			
+
 			OptionsButton1.MouseButton1Down:Connect(function()
 				API3:Toggle()
 			end)
 			return API3
 		end
-		
+
 		return API2
 	end
-	
+
 	return MainAPI
 end
 
