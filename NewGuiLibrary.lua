@@ -1,7 +1,11 @@
 shared.GuiLibrary = {}
+local ScriptSettings = {}
+local Eclipse
 local api = shared.GuiLibrary
 local UIS = game:GetService("UserInputService")
 local UIToggled = false
+local customdir = "Eclipse/"
+local Config = customdir .. "Config"
 
 function DragGUI(gui, gui2)
 	local MainFrame = gui
@@ -34,7 +38,47 @@ function DragGUI(gui, gui2)
 	end)
 end
 
-function api:CreateMain()
+function Slide(MainFrame, sliderFrame, sliderButton, SliderDisplay: TextBox, Max, Default)
+	local sliderdragging = false
+	local percentageValue = Instance.new("IntValue")
+	sliderButton.MouseButton1Down:Connect(function()
+		sliderdragging = true
+	end)
+	
+	sliderButton.Position = UDim2.new(Default/Max,0,0,0)
+	
+	UIS.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			sliderdragging = false
+		end
+	end)
+	
+	UIS.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement then
+			if sliderdragging then
+				local mouseloc = UIS:GetMouseLocation()
+				local relativePOS = mouseloc-MainFrame.AbsolutePosition
+				local percentage = math.clamp(relativePOS.X/MainFrame.AbsoluteSize.X,0,1)
+				
+				percentageValue.Value = percentage
+				sliderButton.Position = UDim2.new(percentage,0,0,0)
+				SliderDisplay.Text = math.round(percentage * Max)
+			end
+		end
+	end)
+	
+	SliderDisplay.FocusLost:Connect(function(enterPressed)
+		if enterPressed then
+			local displayNumber = tonumber(SliderDisplay.Text)
+			local displayDefault = (displayNumber > Max and Max) or (displayNumber < 0 and 0 or displayNumber)
+			sliderButton.Position = UDim2.new(displayDefault/Max,0,0,0)
+		end
+	end)
+	
+	return percentageValue
+end
+
+function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 	local MainAPI = {}
 	local Eclipse = Instance.new("Frame")
 	Eclipse.Visible = false
@@ -101,9 +145,10 @@ function api:CreateMain()
 	local UICorner_12 = Instance.new("UICorner")
 	local UIListLayout_12 = Instance.new("UIListLayout")
 
-	Eclipse1.Name = "Eclipse"
+	Eclipse1.Name = Name5
 	Eclipse1.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 	Eclipse1.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	Eclipse1.ResetOnSpawn = false
 
 	Main.Name = "Main"
 	Main.Parent = Eclipse
@@ -124,7 +169,7 @@ function api:CreateMain()
 	TopBar.Position = UDim2.new(0.0227272734, 0, 0, 0)
 	TopBar.Size = UDim2.new(0, 142, 0, 35)
 	TopBar.Font = Enum.Font.FredokaOne
-	TopBar.Text = "Eclipse"
+	TopBar.Text = Name5
 	TopBar.TextColor3 = Color3.fromRGB(255, 255, 255)
 	TopBar.TextScaled = true
 	TopBar.TextSize = 14.000
@@ -140,77 +185,19 @@ function api:CreateMain()
 	UIListLayout_2.Parent = Frame
 	UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
 
-	Combat.Name = "Combat"
+	Combat.Name = tab1
 	Combat.Parent = Frame
 	Combat.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
 	Combat.BorderColor3 = Color3.fromRGB(54, 54, 54)
 	Combat.BorderSizePixel = 0
 	Combat.Size = UDim2.new(0, 147, 0, 35)
 	Combat.Font = Enum.Font.SourceSans
-	Combat.Text = "Combat"
+	Combat.Text = tab1
 	Combat.TextColor3 = Color3.fromRGB(255, 255, 255)
 	Combat.TextSize = 20.000
 	Combat.TextWrapped = true
 	Combat.MouseButton1Down:Connect(function()
-		if Eclipse.Combat.Visible then
-			Eclipse.Combat.Visible = false
-		else
-			Eclipse.Combat.Visible = true
-		end
-	end)
-
-	Blatant.Name = "Blatant"
-	Blatant.Parent = Frame
-	Blatant.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
-	Blatant.BorderColor3 = Color3.fromRGB(54, 54, 54)
-	Blatant.BorderSizePixel = 0
-	Blatant.Size = UDim2.new(0, 147, 0, 35)
-	Blatant.Font = Enum.Font.SourceSans
-	Blatant.Text = "Blatant"
-	Blatant.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Blatant.TextSize = 20.000
-	Blatant.TextWrapped = true
-	Blatant.MouseButton1Down:Connect(function()
-		if Eclipse.Blatant.Visible then
-			Eclipse.Blatant.Visible = false
-		else
-			Eclipse.Blatant.Visible = true
-		end
-	end)
-
-	Render.Name = "Render"
-	Render.Parent = Frame
-	Render.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
-	Render.BorderColor3 = Color3.fromRGB(54, 54, 54)
-	Render.BorderSizePixel = 0
-	Render.Size = UDim2.new(0, 147, 0, 35)
-	Render.Font = Enum.Font.SourceSans
-	Render.Text = "Render"
-	Render.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Render.TextSize = 20.000
-	Render.TextWrapped = true
-	Render.MouseButton1Down:Connect(function()
-		local parent = Render
-		if Eclipse[parent.Name].Visible then
-			Eclipse[parent.Name].Visible = false
-		else
-			Eclipse[parent.Name].Visible = true
-		end
-	end)
-
-	Render_2.Name = "Render"
-	Render_2.Parent = Frame
-	Render_2.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
-	Render_2.BorderColor3 = Color3.fromRGB(54, 54, 54)
-	Render_2.BorderSizePixel = 0
-	Render_2.Size = UDim2.new(0, 147, 0, 35)
-	Render_2.Font = Enum.Font.SourceSans
-	Render_2.Text = "Utility"
-	Render_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Render_2.TextSize = 20.000
-	Render_2.TextWrapped = true
-	Render_2.MouseButton1Down:Connect(function()
-		local parent = "Utility"
+		local parent = tab1
 		if Eclipse[parent].Visible then
 			Eclipse[parent].Visible = false
 		else
@@ -218,27 +205,87 @@ function api:CreateMain()
 		end
 	end)
 
-	World.Name = "World"
+	Blatant.Name = tab2
+	Blatant.Parent = Frame
+	Blatant.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+	Blatant.BorderColor3 = Color3.fromRGB(54, 54, 54)
+	Blatant.BorderSizePixel = 0
+	Blatant.Size = UDim2.new(0, 147, 0, 35)
+	Blatant.Font = Enum.Font.SourceSans
+	Blatant.Text = tab2
+	Blatant.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Blatant.TextSize = 20.000
+	Blatant.TextWrapped = true
+	Blatant.MouseButton1Down:Connect(function()
+		local parent = tab2
+		if Eclipse[parent].Visible then
+			Eclipse[parent].Visible = false
+		else
+			Eclipse[parent].Visible = true
+		end
+	end)
+
+	Render.Name = tab3
+	Render.Parent = Frame
+	Render.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+	Render.BorderColor3 = Color3.fromRGB(54, 54, 54)
+	Render.BorderSizePixel = 0
+	Render.Size = UDim2.new(0, 147, 0, 35)
+	Render.Font = Enum.Font.SourceSans
+	Render.Text = tab3
+	Render.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Render.TextSize = 20.000
+	Render.TextWrapped = true
+	Render.MouseButton1Down:Connect(function()
+		local parent = tab3
+		if Eclipse[parent].Visible then
+			Eclipse[parent].Visible = false
+		else
+			Eclipse[parent].Visible = true
+		end
+	end)
+
+	Render_2.Name = tab4
+	Render_2.Parent = Frame
+	Render_2.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+	Render_2.BorderColor3 = Color3.fromRGB(54, 54, 54)
+	Render_2.BorderSizePixel = 0
+	Render_2.Size = UDim2.new(0, 147, 0, 35)
+	Render_2.Font = Enum.Font.SourceSans
+	Render_2.Text = tab4
+	Render_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Render_2.TextSize = 20.000
+	Render_2.TextWrapped = true
+	Render_2.MouseButton1Down:Connect(function()
+		local parent = tab4
+		if Eclipse[parent].Visible then
+			Eclipse[parent].Visible = false
+		else
+			Eclipse[parent].Visible = true
+		end
+	end)
+
+	World.Name = tab5
 	World.Parent = Frame
 	World.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
 	World.BorderColor3 = Color3.fromRGB(54, 54, 54)
 	World.BorderSizePixel = 0
 	World.Size = UDim2.new(0, 147, 0, 35)
 	World.Font = Enum.Font.SourceSans
-	World.Text = "World"
+	World.Text = tab5
 	World.TextColor3 = Color3.fromRGB(255, 255, 255)
 	World.TextSize = 20.000
 	World.TextWrapped = true
 	World.MouseButton1Down:Connect(function()
-		local parent = World
-		if Eclipse[parent.Name].Visible then
-			Eclipse[parent.Name].Visible = false
+		local parent = tab5
+		if Eclipse[parent].Visible then
+			Eclipse[parent].Visible = false
 		else
-			Eclipse[parent.Name].Visible = true
+			Eclipse[parent].Visible = true
 		end
 	end)
 
-	Combat_2.Name = "Combat"
+	Combat_2.Name = tab1
 	Combat_2.Parent = Eclipse
 	Combat_2.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
 	Combat_2.Position = UDim2.new(0.150602117, 0, 0.0368271954, 0)
@@ -263,7 +310,7 @@ function api:CreateMain()
 	TopBar_2.Position = UDim2.new(0.0227272734, 0, 0, 0)
 	TopBar_2.Size = UDim2.new(0, 142, 0, 35)
 	TopBar_2.Font = Enum.Font.FredokaOne
-	TopBar_2.Text = "Combat"
+	TopBar_2.Text = tab1
 	TopBar_2.TextColor3 = Color3.fromRGB(255, 255, 255)
 	TopBar_2.TextScaled = true
 	TopBar_2.TextSize = 14.000
@@ -272,7 +319,7 @@ function api:CreateMain()
 	Frame_2.Name = "Frame"
 	Frame_2.Parent = Combat_2
 	Frame_2.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
-	Frame_2.ClipsDescendants = false
+	Frame_2.ClipsDescendants = true
 	Frame_2.Position = UDim2.new(0.00324675324, 0, 0.134099618, 0)
 	Frame_2.Selectable = false
 	Frame_2.Size = UDim2.new(0, 153, 0, 219)
@@ -284,7 +331,7 @@ function api:CreateMain()
 	UIListLayout_4.Parent = Frame_2
 	UIListLayout_4.SortOrder = Enum.SortOrder.LayoutOrder
 
-	Blatant_2.Name = "Blatant"
+	Blatant_2.Name = tab2
 	Blatant_2.Parent = Eclipse
 	Blatant_2.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
 	Blatant_2.Position = UDim2.new(0.283453971, 0, 0.0368271954, 0)
@@ -303,7 +350,7 @@ function api:CreateMain()
 	TopBar_3.Position = UDim2.new(0.0227272734, 0, 0, 0)
 	TopBar_3.Size = UDim2.new(0, 142, 0, 35)
 	TopBar_3.Font = Enum.Font.FredokaOne
-	TopBar_3.Text = "Blatant"
+	TopBar_3.Text = tab2
 	TopBar_3.TextColor3 = Color3.fromRGB(255, 255, 255)
 	TopBar_3.TextScaled = true
 	TopBar_3.TextSize = 14.000
@@ -312,7 +359,7 @@ function api:CreateMain()
 	Frame_3.Name = "Frame"
 	Frame_3.Parent = Blatant_2
 	Frame_3.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
-	Frame_3.ClipsDescendants = false
+	Frame_3.ClipsDescendants = true
 	Frame_3.Position = UDim2.new(0.00324675324, 0, 0.134099618, 0)
 	Frame_3.Selectable = false
 	Frame_3.Size = UDim2.new(0, 153, 0, 219)
@@ -324,7 +371,7 @@ function api:CreateMain()
 	UIListLayout_6.Parent = Frame_3
 	UIListLayout_6.SortOrder = Enum.SortOrder.LayoutOrder
 
-	Render_3.Name = "Render"
+	Render_3.Name = tab3
 	Render_3.Parent = Eclipse
 	Render_3.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
 	Render_3.Position = UDim2.new(0.417450964, 0, 0.0368271954, 0)
@@ -343,7 +390,7 @@ function api:CreateMain()
 	TopBar_4.Position = UDim2.new(0.0227272734, 0, 0, 0)
 	TopBar_4.Size = UDim2.new(0, 142, 0, 35)
 	TopBar_4.Font = Enum.Font.FredokaOne
-	TopBar_4.Text = "Render"
+	TopBar_4.Text = tab3
 	TopBar_4.TextColor3 = Color3.fromRGB(255, 255, 255)
 	TopBar_4.TextScaled = true
 	TopBar_4.TextSize = 14.000
@@ -352,7 +399,7 @@ function api:CreateMain()
 	Frame_4.Name = "Frame"
 	Frame_4.Parent = Render_3
 	Frame_4.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
-	Frame_4.ClipsDescendants = false
+	Frame_4.ClipsDescendants = true
 	Frame_4.Position = UDim2.new(0.00324675324, 0, 0.134099618, 0)
 	Frame_4.Selectable = false
 	Frame_4.Size = UDim2.new(0, 153, 0, 219)
@@ -364,7 +411,7 @@ function api:CreateMain()
 	UIListLayout_8.Parent = Frame_4
 	UIListLayout_8.SortOrder = Enum.SortOrder.LayoutOrder
 
-	Utility.Name = "Utility"
+	Utility.Name = tab4
 	Utility.Parent = Eclipse
 	Utility.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
 	Utility.Position = UDim2.new(0.549755573, 0, 0.0368271954, 0)
@@ -383,7 +430,7 @@ function api:CreateMain()
 	TopBar_5.Position = UDim2.new(0.0227272734, 0, 0, 0)
 	TopBar_5.Size = UDim2.new(0, 142, 0, 35)
 	TopBar_5.Font = Enum.Font.FredokaOne
-	TopBar_5.Text = "Utility"
+	TopBar_5.Text = tab4
 	TopBar_5.TextColor3 = Color3.fromRGB(255, 255, 255)
 	TopBar_5.TextScaled = true
 	TopBar_5.TextSize = 14.000
@@ -392,7 +439,7 @@ function api:CreateMain()
 	Frame_5.Name = "Frame"
 	Frame_5.Parent = Utility
 	Frame_5.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
-	Frame_5.ClipsDescendants = false
+	Frame_5.ClipsDescendants = true
 	Frame_5.Position = UDim2.new(0.00324675324, 0, 0.134099618, 0)
 	Frame_5.Selectable = false
 	Frame_5.Size = UDim2.new(0, 153, 0, 219)
@@ -404,7 +451,7 @@ function api:CreateMain()
 	UIListLayout_10.Parent = Frame_5
 	UIListLayout_10.SortOrder = Enum.SortOrder.LayoutOrder
 
-	World_2.Name = "World"
+	World_2.Name = tab5
 	World_2.Parent = Eclipse
 	World_2.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
 	World_2.Position = UDim2.new(0.681816041, 0, 0.0368271954, 0)
@@ -423,7 +470,7 @@ function api:CreateMain()
 	TopBar_6.Position = UDim2.new(0.0227272734, 0, 0, 0)
 	TopBar_6.Size = UDim2.new(0, 142, 0, 35)
 	TopBar_6.Font = Enum.Font.FredokaOne
-	TopBar_6.Text = "World"
+	TopBar_6.Text = tab5
 	TopBar_6.TextColor3 = Color3.fromRGB(255, 255, 255)
 	TopBar_6.TextScaled = true
 	TopBar_6.TextSize = 14.000
@@ -432,7 +479,7 @@ function api:CreateMain()
 	Frame_6.Name = "Frame"
 	Frame_6.Parent = World_2
 	Frame_6.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
-	Frame_6.ClipsDescendants = false
+	Frame_6.ClipsDescendants = true
 	Frame_6.Position = UDim2.new(0.00324675324, 0, 0.134099618, 0)
 	Frame_6.Selectable = false
 	Frame_6.Size = UDim2.new(0, 153, 0, 219)
@@ -444,7 +491,7 @@ function api:CreateMain()
 	UIListLayout_12.Parent = Frame_6
 	UIListLayout_12.SortOrder = Enum.SortOrder.LayoutOrder
 
-	function MainAPI:COB(argstable)
+	function MainAPI:CreateButton(argstable)
 		local Name = argstable["Name"]
 		local Function = argstable["Function"]
 		local Default = argstable["Default"]
@@ -457,6 +504,17 @@ function api:CreateMain()
 		local children = {}
 		local childrenopen = false
 		API2.Value = callback
+		if ScriptSettings[Name].Toggled then
+			callback = ScriptSettings[Name].Toggled
+		elseif ScriptSettings[Name].Bind then
+			InputBind2 = ScriptSettings[Name].Bind
+		end
+		function UpdateSettings()
+			ScriptSettings[Name] = {
+				Toggled = callback,
+				Bind = InputBind2
+			}
+		end
 
 		local OptionsButton = Instance.new("TextButton")
 		local Bind = Instance.new("ImageButton")
@@ -519,6 +577,7 @@ function api:CreateMain()
 						BindText.Text = input.KeyCode.Name
 						InputBind2 = input.KeyCode
 						detect:Disconnect()
+						UpdateSettings()
 						valid = false
 						wait(0.1)
 						valid = true
@@ -544,10 +603,12 @@ function api:CreateMain()
 			if callback then
 				callback = false
 				OptionsButton.BackgroundColor3 = Color3.fromRGB(42,42,42)
+				UpdateSettings()
 				Function(callback)
 			else
 				callback = true
 				OptionsButton.BackgroundColor3 = Color3.fromRGB(120,24,255)
+				UpdateSettings()
 				Function(callback)
 			end
 		end
@@ -562,10 +623,19 @@ function api:CreateMain()
 			end
 		end)
 		
-		function API2:CTB(argstable)
+		function API2:CreateTextBox(argstable)
 			local Name1 = argstable["Name"]
-			local Default1 = argstable["Default"]
+			local Default1 = argstable["Default"] 
 			local callback1 = Default1
+			if ScriptSettings[Name][Name1].Text then
+				callback1 = ScriptSettings[Name][Name1].Text
+			end
+			
+			function UpdateSettings1()
+				ScriptSettings[Name][Name1] = {
+					Text = callback1
+				}
+			end
 			
 			local TextBox = Instance.new("Frame")
 			TextBox.Visible = false
@@ -606,9 +676,15 @@ function api:CreateMain()
 			Value.Size = UDim2.new(0, 49, 0, 28)
 			Value.Font = Enum.Font.SourceSans
 			Value.Text = callback1
-			Value.TextColor3 = Color3.fromRGB(0, 0, 0)
+			Value.TextColor3 = Color3.fromRGB(255, 255, 255)
 			Value.TextSize = 14.000
 			Value.TextScaled = true
+
+			Value.FocusLost:Connect(function(enterPressed)
+				if enterPressed then
+					UpdateSettings1()
+				end
+			end)
 
 			UICorner.CornerRadius = UDim.new(0, 6)
 			UICorner.Parent = Value
@@ -616,12 +692,15 @@ function api:CreateMain()
 			return Value
 		end
 		
-		function API2:COB(argstable)
+		function API2:CreateButton(argstable)
 			local API3 = {}
 			local Name1 = argstable["Name"]
 			local Function1 = argstable["Function"]
 			local Default1 = argstable["Default"]
 			local callback1 = Default1
+			if ScriptSettings[Name][Name1].Toggled then
+				callback1 = ScriptSettings[Name][Name1].Toggled
+			end
 
 			local OptionsButton1 = Instance.new("TextButton")
 			local UICorner1 = Instance.new("UICorner")
@@ -638,6 +717,11 @@ function api:CreateMain()
 			OptionsButton1.TextWrapped = true
 			OptionsButton1.Visible = false
 			children[Name1] = OptionsButton1
+			function UpdateSettings1()
+				ScriptSettings[Name][Name1] = {
+					Toggled = callback1
+				}
+			end
 
 
 			function API3:Toggle()
@@ -645,10 +729,12 @@ function api:CreateMain()
 					callback1 = false
 					OptionsButton1.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
 					Function1(callback1)
+					UpdateSettings1()
 				else
 					callback1 = true
 					OptionsButton1.BackgroundColor3 = Color3.fromRGB(120,24,255)
 					Function1(callback1)
+					UpdateSettings1()
 				end
 			end
 
@@ -657,11 +743,83 @@ function api:CreateMain()
 			end)
 			return API3
 		end
+		
+		function API2:CreateSlider(argstable)
+			local Name1 = argstable["Name"]
+			local Max1 = argstable["Max"]
+			local Default1 = argstable["Default"]
+			local Value = Instance.new("IntValue")
+			Value.Value = Default1
+			
+			local Slider = Instance.new("Frame")
+			local Slider_2 = Instance.new("Frame")
+			local UICorner = Instance.new("UICorner")
+			local Name = Instance.new("TextLabel")
+			local TextBox = Instance.new("TextBox")
+			local SliderHead = Instance.new("ImageButton")
+			local UICorner_2 = Instance.new("UICorner")
+			Slider.Name = "Slider"
+			Slider.Parent = Eclipse[Tab].Frame
+			Slider.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
+			Slider.Position = UDim2.new(0, 0, 0.159817278, 0)
+			Slider.Size = UDim2.new(0, 153, 0, 35)
+			children[Name1] = Slider
+			Slider.Visible = false
+
+			Slider_2.Name = Name1
+			Slider_2.Parent = Slider
+			Slider_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Slider_2.Position = UDim2.new(0.111111112, 0, 0.728571415, 0)
+			Slider_2.Size = UDim2.new(0, 98, 0, 1)
+
+			UICorner.CornerRadius = UDim.new(0, 1)
+			UICorner.Parent = Slider_2
+
+			Name.Name = "Name"
+			Name.Parent = Slider
+			Name.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
+			Name.BackgroundTransparency = 1.000
+			Name.BorderSizePixel = 0
+			Name.Position = UDim2.new(0, 0, 0.171428576, 0)
+			Name.Size = UDim2.new(0, 98, 0, 19)
+			Name.Font = Enum.Font.SourceSans
+			Name.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Name.TextSize = 14.000
+			Name.Text = Name1
+
+			TextBox.Parent = Slider
+			TextBox.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+			TextBox.Position = UDim2.new(0.790849686, 0, 0.200000003, 0)
+			TextBox.Size = UDim2.new(0, 32, 0, 24)
+			TextBox.Font = Enum.Font.SourceSans
+			TextBox.Text = Value.Value
+			TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+			TextBox.TextSize = 14.000
+
+			SliderHead.Name = "SliderHead"
+			SliderHead.Parent = Slider_2
+			SliderHead.Active = false
+			SliderHead.BackgroundColor3 = Color3.fromRGB(120, 24, 255)
+			SliderHead.Position = UDim2.new(0, 0, 0, 0)
+			SliderHead.AnchorPoint = Vector2.new(0.5,0.5)
+			SliderHead.Selectable = false
+			SliderHead.Size = UDim2.new(0, 12, 0, 12)
+
+			UICorner_2.Parent = SliderHead
+			
+			Value.Value = Slide(Slider, Slider_2, SliderHead, TextBox, Max1, Default1).Value
+			
+			return TextBox
+		end
 
 		return API2
 	end
 
 	return MainAPI
+end
+
+while wait(1) do
+	writefile(Config, ScriptSettings)
 end
 
 return shared.GuiLibrary
