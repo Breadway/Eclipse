@@ -504,17 +504,6 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 		local children = {}
 		local childrenopen = false
 		API2.Value = callback
-		if ScriptSettings[Name].Toggled then
-			callback = ScriptSettings[Name].Toggled
-		elseif ScriptSettings[Name].Bind then
-			InputBind2 = ScriptSettings[Name].Bind
-		end
-		function UpdateSettings()
-			ScriptSettings[Name] = {
-				Toggled = callback,
-				Bind = InputBind2
-			}
-		end
 
 		local OptionsButton = Instance.new("TextButton")
 		local Bind = Instance.new("ImageButton")
@@ -603,12 +592,10 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			if callback then
 				callback = false
 				OptionsButton.BackgroundColor3 = Color3.fromRGB(42,42,42)
-				UpdateSettings()
 				Function(callback)
 			else
 				callback = true
 				OptionsButton.BackgroundColor3 = Color3.fromRGB(120,24,255)
-				UpdateSettings()
 				Function(callback)
 			end
 		end
@@ -627,15 +614,6 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			local Name1 = argstable["Name"]
 			local Default1 = argstable["Default"] 
 			local callback1 = Default1
-			if ScriptSettings[Name][Name1].Text then
-				callback1 = ScriptSettings[Name][Name1].Text
-			end
-			
-			function UpdateSettings1()
-				ScriptSettings[Name][Name1] = {
-					Text = callback1
-				}
-			end
 			
 			local TextBox = Instance.new("Frame")
 			TextBox.Visible = false
@@ -682,7 +660,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 
 			Value.FocusLost:Connect(function(enterPressed)
 				if enterPressed then
-					UpdateSettings1()
+
 				end
 			end)
 
@@ -698,9 +676,6 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			local Function1 = argstable["Function"]
 			local Default1 = argstable["Default"]
 			local callback1 = Default1
-			if ScriptSettings[Name][Name1].Toggled then
-				callback1 = ScriptSettings[Name][Name1].Toggled
-			end
 
 			local OptionsButton1 = Instance.new("TextButton")
 			local UICorner1 = Instance.new("UICorner")
@@ -717,11 +692,6 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			OptionsButton1.TextWrapped = true
 			OptionsButton1.Visible = false
 			children[Name1] = OptionsButton1
-			function UpdateSettings1()
-				ScriptSettings[Name][Name1] = {
-					Toggled = callback1
-				}
-			end
 
 
 			function API3:Toggle()
@@ -729,12 +699,10 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 					callback1 = false
 					OptionsButton1.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
 					Function1(callback1)
-					UpdateSettings1()
 				else
 					callback1 = true
 					OptionsButton1.BackgroundColor3 = Color3.fromRGB(120,24,255)
 					Function1(callback1)
-					UpdateSettings1()
 				end
 			end
 
@@ -816,10 +784,6 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 	end
 
 	return MainAPI
-end
-
-while wait(1) do
-	writefile(Config, ScriptSettings)
 end
 
 return shared.GuiLibrary
