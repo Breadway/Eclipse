@@ -7,7 +7,7 @@ local customdir = "Eclipse/"
 local scripturl = customdir .."Configs/" .. game.PlaceId .. ".lua"
 
 if not isfile(scripturl) then
-	writefile(scripturl, tostring({}))
+	writefile(scripturl, "{}")
 end
 
 if not isfolder(customdir) then
