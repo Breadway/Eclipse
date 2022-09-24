@@ -1,11 +1,31 @@
 shared.GuiLibrary = {}
-local ScriptSettings = {}
-local Eclipse
 local api = shared.GuiLibrary
+local ScriptSettings = {}
 local UIS = game:GetService("UserInputService")
 local UIToggled = false
-local customdir = "Eclipse/"
-local Config = customdir .. "Config"
+
+if isfile("EclipseConfig.txt") then
+	local json = game:GetService("HttpService"):JSONDecode(readfile("EclipseConfig.txt"))
+	ScriptSettings = json
+end
+
+function SaveSettings()
+	local json
+	local HttpService = game:GetService("HttpService")
+	if (writefile) then
+		json = HttpService:JSONEncode(ScriptSettings)
+		writefile("EclipseConfig.lua", json)
+	end
+end
+
+function api:SaveSettings()
+	local json
+	local HttpService = game:GetService("HttpService")
+	if (writefile) then
+		json = HttpService:JSONEncode(ScriptSettings)
+		writefile("EclipseConfig.lua", json)
+	end
+end
 
 function DragGUI(gui, gui2)
 	local MainFrame = gui
@@ -496,14 +516,18 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 		local Function = argstable["Function"]
 		local Default = argstable["Default"]
 		local Tab = argstable["Tab"]
-		local callback = Default
+		local callback = Default ; if ScriptSettings[Name] and ScriptSettings[Name].Toggled then callback = ScriptSettings[Name].Toggled end
 		local InputBind = argstable["Bind"]
-		local InputBind2 = InputBind
+		local InputBind2 = InputBind ; if ScriptSettings[Name] and ScriptSettings[Name].Bind then InputBind2 = ScriptSettings[Name].Bind end
 		local API2 = {}
 		local BindValue = ""
 		local children = {}
 		local childrenopen = false
 		API2.Value = callback
+		ScriptSettings[Name] = {
+			Toggled = callback,
+			Bind = InputBind2
+		}
 
 		local OptionsButton = Instance.new("TextButton")
 		local Bind = Instance.new("ImageButton")
@@ -536,6 +560,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 		if callback then
 			OptionsButton.BackgroundColor3 = Color3.fromRGB(120,24,255)
 			callback = true
+			Function(callback)
 		end
 
 		Bind.Name = "Bind"
@@ -548,7 +573,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 		BindText.Name = "BindText"
 		BindText.BackgroundTransparency = 1
 		BindText.Size = UDim2.new(0,18,0,18)
-		BindText.Text = BindValue
+		BindText.Text = BindValue ; if ScriptSettings[Name] and ScriptSettings[Name].Bind then BindText.Text = ScriptSettings[Name].Bind.Name end
 		BindText.TextColor3 = Color3.fromRGB(255,255,255)
 		
 		local clicked = 0
@@ -565,8 +590,8 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 						BindValue = input.Name
 						BindText.Text = input.KeyCode.Name
 						InputBind2 = input.KeyCode
+						ScriptSettings[Name].Bind = input.KeyCode
 						detect:Disconnect()
-						UpdateSettings()
 						valid = false
 						wait(0.1)
 						valid = true
@@ -580,6 +605,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			if clicked == 2 then
 				InputBind2 = InputBind
 				BindText.Text = ""
+				ScriptSettings[Name].Bind = nil
 				valid = false
 				Disconnect()
 			end
@@ -593,10 +619,20 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 				callback = false
 				OptionsButton.BackgroundColor3 = Color3.fromRGB(42,42,42)
 				Function(callback)
+				ScriptSettings[Name] = {
+					Toggled = false,
+					Bind = InputBind2
+				}
+				SaveSettings()
 			else
 				callback = true
 				OptionsButton.BackgroundColor3 = Color3.fromRGB(120,24,255)
 				Function(callback)
+				ScriptSettings[Name] = {
+					Toggled = true,
+					Bind = InputBind2
+				}
+				SaveSettings()
 			end
 		end
 
@@ -612,7 +648,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 		
 		function API2:CreateTextBox(argstable)
 			local Name1 = argstable["Name"]
-			local Default1 = argstable["Default"] 
+			local Default1 = argstable["Default"]
 			local callback1 = Default1
 			
 			local TextBox = Instance.new("Frame")
@@ -657,12 +693,6 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			Value.TextColor3 = Color3.fromRGB(255, 255, 255)
 			Value.TextSize = 14.000
 			Value.TextScaled = true
-
-			Value.FocusLost:Connect(function(enterPressed)
-				if enterPressed then
-
-				end
-			end)
 
 			UICorner.CornerRadius = UDim.new(0, 6)
 			UICorner.Parent = Value
@@ -784,6 +814,10 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 	end
 
 	return MainAPI
+end
+
+while wait(1) and shared.EclipseExecuted do
+	SaveSettings()
 end
 
 return shared.GuiLibrary
