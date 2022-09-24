@@ -6,6 +6,10 @@ local UIToggled = false
 local customdir = "Eclipse/"
 local scripturl = customdir .."Configs/" .. game.PlaceId .. ".lua"
 
+if not isfile(scripturl) then
+	writefile(scripturl, tostring({}))
+end
+
 if not isfolder(customdir) then
 	makefolder(customdir)
 end
