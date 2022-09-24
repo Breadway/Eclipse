@@ -766,7 +766,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			local Default1 = argstable["Default"]
 			local Value = Instance.new("IntValue")
 			Value.Value = Default1
-			if ScriptSettings[Name] and ScriptSettings[Name][Name1].Value then Default1 = ScriptSettings[Name][Name1].Value end
+			if ScriptSettings[Name] and ScriptSettings[Name][Name1] and ScriptSettings[Name][Name1].Value then Default1 = ScriptSettings[Name][Name1].Value end
 			
 			local Slider = Instance.new("Frame")
 			local Slider_2 = Instance.new("Frame")
