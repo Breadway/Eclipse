@@ -3,9 +3,10 @@ local api = shared.GuiLibrary
 local ScriptSettings = {}
 local UIS = game:GetService("UserInputService")
 local UIToggled = false
+local scripturl = "EclipseConfig.lua"
 
-if isfile("EclipseConfig.txt") then
-	local json = game:GetService("HttpService"):JSONDecode(readfile("EclipseConfig.txt"))
+if isfile(scripturl) then
+	local json = game:GetService("HttpService"):JSONDecode(readfile(scripturl))
 	ScriptSettings = json
 end
 
@@ -14,7 +15,7 @@ function SaveSettings()
 	local HttpService = game:GetService("HttpService")
 	if (writefile) then
 		json = HttpService:JSONEncode(ScriptSettings)
-		writefile("EclipseConfig.lua", json)
+		writefile(scripturl, json)
 	end
 end
 
@@ -23,7 +24,7 @@ function api:SaveSettings()
 	local HttpService = game:GetService("HttpService")
 	if (writefile) then
 		json = HttpService:JSONEncode(ScriptSettings)
-		writefile("EclipseConfig.lua", json)
+		writefile(scripturl, json)
 	end
 end
 
@@ -58,7 +59,7 @@ function DragGUI(gui, gui2)
 	end)
 end
 
-function Slide(MainFrame, sliderFrame, sliderButton, SliderDisplay: TextBox, Max, Default)
+function Slide(MainFrame, sliderFrame, sliderButton, SliderDisplay, Max, Default)
 	local sliderdragging = false
 	local percentageValue = Instance.new("IntValue")
 	sliderButton.MouseButton1Down:Connect(function()
