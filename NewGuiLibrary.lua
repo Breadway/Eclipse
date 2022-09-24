@@ -3,7 +3,20 @@ local api = shared.GuiLibrary
 local ScriptSettings = {}
 local UIS = game:GetService("UserInputService")
 local UIToggled = false
-local scripturl = "EclipseConfig.lua"
+local customdir = "Eclipse/"
+local scripturl = customdir .."Configs/" .. game.PlaceId .. ".lua"
+
+if not isfolder(customdir) then
+	makefolder(customdir)
+end
+
+if not isfolder(customdir.. "Config/") then
+	makefolder(customdir.."Config/")
+end
+
+if not isfolder(customdir.."Ass/") then
+	makefolder(customdir.."Ass/")
+end
 
 if isfile(scripturl) then
 	local json = game:GetService("HttpService"):JSONDecode(readfile(scripturl))
@@ -749,6 +762,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			local Default1 = argstable["Default"]
 			local Value = Instance.new("IntValue")
 			Value.Value = Default1
+			if ScriptSettings[Name] and ScriptSettings[Name][Name1].Value then Default1 = ScriptSettings[Name][Name1].Value end
 			
 			local Slider = Instance.new("Frame")
 			local Slider_2 = Instance.new("Frame")
@@ -794,6 +808,9 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			TextBox.Text = Value.Value
 			TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 			TextBox.TextSize = 14.000
+			ScriptSettings[Name][Name1] = {
+				Value = TextBox.Text
+			}
 
 			SliderHead.Name = "SliderHead"
 			SliderHead.Parent = Slider_2
