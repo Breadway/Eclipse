@@ -1,7 +1,50 @@
-shared.GuiLibrary = {}
-local api = shared.GuiLibrary
+api = {}
+shared.GuiLibrary = api
+local ScriptSettings = {}
 local UIS = game:GetService("UserInputService")
 local UIToggled = false
+local customdir = "Eclipse/"
+local scripturl = customdir .."Config/".. tostring(game.PlaceId) .. ".lua"
+print(scripturl)
+
+if not isfile(scripturl) then
+	writefile(scripturl, "{}")
+end
+
+if not isfolder(customdir) then
+	makefolder(customdir)
+end
+
+if not isfolder(customdir.. "Config/") then
+	makefolder(customdir.."Config/")
+end
+
+if not isfolder(customdir.."Assets/") then
+	makefolder(customdir.."Assets/")
+end
+
+if isfile(scripturl) then
+	local json = game:GetService("HttpService"):JSONDecode(readfile(scripturl))
+	ScriptSettings = json
+end
+
+function SaveSettings()
+	local json
+	local HttpService = game:GetService("HttpService")
+	if (writefile) then
+		json = HttpService:JSONEncode(ScriptSettings)
+		writefile(scripturl, json)
+	end
+end
+
+function api:SaveSettings()
+	local json
+	local HttpService = game:GetService("HttpService")
+	if (writefile) then
+		json = HttpService:JSONEncode(ScriptSettings)
+		writefile(scripturl, json)
+	end
+end
 
 function DragGUI(gui, gui2)
 	local MainFrame = gui
@@ -34,7 +77,7 @@ function DragGUI(gui, gui2)
 	end)
 end
 
-function Slide(MainFrame, sliderFrame, sliderButton, SliderDisplay: TextBox, Max, Default)
+function Slide(MainFrame, sliderFrame, sliderButton, SliderDisplay, Max, Default)
 	local sliderdragging = false
 	local percentageValue = Instance.new("IntValue")
 	sliderButton.MouseButton1Down:Connect(function()
@@ -79,6 +122,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 	local Eclipse = Instance.new("Frame")
 	Eclipse.Visible = false
 	local Eclipse1 = Instance.new("ScreenGui")
+	api["MainGui"] = Eclipse1
 	Eclipse.Parent = Eclipse1
 	Eclipse.BackgroundTransparency = 1
 	Eclipse.Size = UDim2.new(0, 1257,0, 545)
@@ -492,14 +536,18 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 		local Function = argstable["Function"]
 		local Default = argstable["Default"]
 		local Tab = argstable["Tab"]
-		local callback = Default
+		local callback = Default ; if ScriptSettings[Name] and ScriptSettings[Name].Toggled then callback = ScriptSettings[Name].Toggled end
 		local InputBind = argstable["Bind"]
-		local InputBind2 = InputBind
+		local InputBind2 = InputBind ; if ScriptSettings[Name] and ScriptSettings[Name].Bind then InputBind2 = ScriptSettings[Name].Bind end
 		local API2 = {}
 		local BindValue = ""
 		local children = {}
 		local childrenopen = false
 		API2.Value = callback
+		ScriptSettings[Name] = {
+			Toggled = callback,
+			Bind = InputBind2
+		}
 
 		local OptionsButton = Instance.new("TextButton")
 		local Bind = Instance.new("ImageButton")
@@ -532,6 +580,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 		if callback then
 			OptionsButton.BackgroundColor3 = Color3.fromRGB(120,24,255)
 			callback = true
+			Function(callback)
 		end
 
 		Bind.Name = "Bind"
@@ -544,7 +593,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 		BindText.Name = "BindText"
 		BindText.BackgroundTransparency = 1
 		BindText.Size = UDim2.new(0,18,0,18)
-		BindText.Text = BindValue
+		BindText.Text = BindValue ; if ScriptSettings[Name] and ScriptSettings[Name].Bind then BindText.Text = ScriptSettings[Name].Bind.Name end
 		BindText.TextColor3 = Color3.fromRGB(255,255,255)
 		
 		local clicked = 0
@@ -561,6 +610,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 						BindValue = input.Name
 						BindText.Text = input.KeyCode.Name
 						InputBind2 = input.KeyCode
+						ScriptSettings[Name].Bind = input.KeyCode
 						detect:Disconnect()
 						valid = false
 						wait(0.1)
@@ -575,6 +625,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			if clicked == 2 then
 				InputBind2 = InputBind
 				BindText.Text = ""
+				ScriptSettings[Name].Bind = nil
 				valid = false
 				Disconnect()
 			end
@@ -588,10 +639,14 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 				callback = false
 				OptionsButton.BackgroundColor3 = Color3.fromRGB(42,42,42)
 				Function(callback)
+				ScriptSettings[Name].Toggled = false
+				SaveSettings()
 			else
 				callback = true
 				OptionsButton.BackgroundColor3 = Color3.fromRGB(120,24,255)
 				Function(callback)
+				ScriptSettings[Name].Toggled = true
+				SaveSettings()
 			end
 		end
 
@@ -707,6 +762,7 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			local Default1 = argstable["Default"]
 			local Value = Instance.new("IntValue")
 			Value.Value = Default1
+			if ScriptSettings[Name] and ScriptSettings[Name][Name1].Value then Default1 = ScriptSettings[Name][Name1].Value end
 			
 			local Slider = Instance.new("Frame")
 			local Slider_2 = Instance.new("Frame")
@@ -752,6 +808,9 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 			TextBox.Text = Value.Value
 			TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 			TextBox.TextSize = 14.000
+			ScriptSettings[Name][Name1] = {
+				Value = TextBox.Text
+			}
 
 			SliderHead.Name = "SliderHead"
 			SliderHead.Parent = Slider_2
@@ -773,6 +832,10 @@ function api:CreateMain(Name5, tab1, tab2, tab3, tab4, tab5)
 	end
 
 	return MainAPI
+end
+
+while wait(1) and shared.EclipseExecuted do
+	SaveSettings()
 end
 
 return shared.GuiLibrary
