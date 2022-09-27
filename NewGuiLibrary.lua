@@ -4,7 +4,7 @@ local ScriptSettings = {}
 local UIS = game:GetService("UserInputService")
 local UIToggled = false
 local customdir = "Eclipse/"
-local scripturl = customdir .."Config/".. tostring(game.PlaceId) .. ".lua"
+local scripturl = customdir .."Config/".. tostring(game.PlaceId) .. ".txt"
 print(scripturl)
 
 if not isfile(scripturl) then
